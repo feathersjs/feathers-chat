@@ -12,7 +12,7 @@
   ],
   "website": "http://feathersjs.com",
   "repository": "https://github.com/feathersjs/feathers-chat",
-  "logo": "https://pbs.twimg.com/profile_images/642420417190166529/IvapbqV1_400x400.png",
+  "logo": "http://s32.postimg.org/4k9q912x1/aar_QEIys.jpg",
   "success_url": "/",
   "env": {
     "FEATHERS_AUTH_SECRET": {

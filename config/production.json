@@ -1,11 +1,11 @@
 {
-  "host": "feathers-chat-app.feathersjs.com",
+  "host": "shrouded-tundra-85822.herokuapp.com",
   "port": 80,
-  "nedb": "NEDB_BASE_PATH",
+  "nedb": "../data/",
   "public": "../public/",
   "auth": {
     "token": {
-      "secret": "FEATHERS_AUTH_SECRET"
+      "secret": ""
     },
     "local": {}
   }
