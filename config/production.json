@@ -1,5 +1,5 @@
 {
-  "host": "powerful-caverns-43820.herokuapp.com",
+  "host": "shrouded-tundra-85822.herokuapp.com",
   "port": 80,
   "nedb": "../data/",
   "public": "../public/",
