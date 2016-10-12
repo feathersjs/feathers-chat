@@ -8,17 +8,19 @@
   <link rel="stylesheet" href="../chat.css">
 </head>
 <body>
+<div id="vue-chat">
+
+  <chat-app v-if="user.authenticated">
+    <user-list></user-list>
+    <message-list>
+      <compose-message></compose-message>
+    </message-list>
+  </chat-app>
+
+</div>
 
 
-<chat-app v-if="user.authenticated">
-  <user-list></user-list>
-  <message-list>
-    <compose-message></compose-message>
-  </message-list>
-</chat-app>
-
-
-<template id="chat-app-template">
+<script type="text/x-template" id="chat-app-template">
   <div id="app" class="flex flex-column">
     <header class="title-bar flex flex-row flex-center">
       <div class="title-wrapper block center-element">
@@ -33,16 +35,16 @@
 
     </div>
   </div>
-</template>
+</script>
 
 
-<template id="user-list-template">
+<script type="text/x-template" id="user-list-template">
   <aside class="sidebar col col-3 flex flex-column flex-space-between">
     <header class="flex flex-row flex-center">
       <h4 class="font-300 text-center"><span class="font-600 online-count" v-cloak>{{ users.length }}</span> users</h4>
     </header>
     <ul class="flex flex-column flex-1 list-unstyled user-list">
-      <li v-for="user in users" track-by="$index" v-cloak>
+      <li v-for="(user) in users" v-cloak>
         <a class="block relative" href="#">
           <img :src="user.avatar || dummyUser.avatar" alt="" class="avatar">
           <span class="absolute username">{{ user.email || dummyUser.email }}</span>
@@ -53,13 +55,13 @@
       <a href="#" class="logout button button-primary" @click="logout">Sign Out</a>
     </footer>
   </aside>
-</template>
+</script>
 
 
-<template id="message-list-template">
+<script type="text/x-template" id="message-list-template">
   <div class="flex flex-column col col-9">
     <main class="chat flex flex-column flex-1 clear">
-      <div class="message flex flex-row" v-for="message in messages" track-by="$index" v-cloak>
+      <div class="message flex flex-row" v-for="message in messages" v-cloak>
         <message :message=message></message>
       </div>
     </main>
@@ -67,33 +69,34 @@
     <slot></slot>
 
   </div>
-</template>
+</script>
 
 
-<template id="message-template">
-  <img :src="message.sentBy.avatar || placeholder" alt="{{ message.sentBy.email }}" class="avatar">
-  <div class="message-wrapper">
-    <p class="message-header">
-      <span class="username font-600">{{ message.sentBy.email }}</span>
-      <span class="sent-date font-300">{{ message.createdAt | moment }}</span>
-    </p>
-    <p class="message-content font-300">{{ message.text }}</p>
+<script type="text/x-template" id="message-template">
+  <div>
+    <img :src="message.sentBy.avatar || placeholder" :alt="message.sentBy.email" class="avatar">
+    <div class="message-wrapper">
+      <p class="message-header">
+        <span class="username font-600">{{ message.sentBy.email }}</span>
+        <span class="sent-date font-300">{{ message.createdAt | moment }}</span>
+      </p>
+      <p class="message-content font-300">{{ message.text }}</p>
+    </div>
   </div>
-  </div>
-</template>
+</script>
 
 
-<template id="compose-message-template">
+<script type="text/x-template" id="compose-message-template">
   <form class="flex flex-row flex-space-between" id="send-message" v-on:submit.prevent>
     <input type="text" name="text" class="flex flex-1" v-model="newMessage">
     <button class="button-primary" type="submit" @click="addMessage">Send</button>
   </form>
-</template>
+</script>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.21/vue.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.0.2/vue.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.12.0/moment.js"></script>
-<script src="//cdn.rawgit.com/feathersjs/feathers-client/v1.0.0/dist/feathers.js"></script>
+<script src="//cdn.rawgit.com/feathersjs/feathers-client/v1.6.1/dist/feathers.js"></script>
 <script src="/socket.io/socket.io.js"></script>
 <script src="app.js"></script>
 </body>
