@@ -14,7 +14,7 @@ module.exports = function(options) {
     // First get the message that the user wants to access
     return messageService.get(hook.id, hook.params).then(message => {
       // Throw a not authenticated error if the message and user id don't match
-      if (message.sentBy._id !== hook.params.user._id) {
+      if (message.sentBy._id.equals(hook.params.user._id)) {
         throw new errors.NotAuthenticated('Access not allowed');
       }
 
