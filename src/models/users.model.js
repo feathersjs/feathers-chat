@@ -7,6 +7,7 @@ module.exports = function(app) {
     filename: path.join(dbPath, `users.json`),
     autoload: true
   });
+  Model.ensureIndex({ fieldName: 'email', unique: true });
 
   return Model;
 };
