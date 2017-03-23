@@ -30,7 +30,7 @@
     "compression": "^1.6.1",
     "cors": "^2.7.1",
     "feathers": "^2.0.0",
-    "feathers-authentication": "^0.7.0",
+    "feathers-authentication": "^1.2.0",
     "feathers-configuration": "^0.4.1",
     "feathers-errors": "^2.0.1",
     "feathers-hooks": "^1.5.0",
