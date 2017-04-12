@@ -1,5 +1,7 @@
 # feathers-chat
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/feathersjs/feathers-chat.svg)](https://greenkeeper.io/)
+
 > A Feathers real-time chat application
 
 ## About
