@@ -37,7 +37,7 @@
     "feathers-authentication-local": "^0.3.3",
     "feathers-configuration": "^0.4.1",
     "feathers-errors": "^2.6.1",
-    "feathers-hooks": "^1.8.1",
+    "feathers-hooks": "^2.0.0",
     "feathers-hooks-common": "^3.0.0-pre.1",
     "feathers-nedb": "^2.6.1",
     "feathers-rest": "^1.7.1",
