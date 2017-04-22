@@ -1,12 +1,10 @@
-'use strict';
-
 // Initializes the `messages` service on path `/messages`
 const createService = require('feathers-nedb');
 const createModel = require('../../models/messages.model');
 const hooks = require('./messages.hooks');
 const filters = require('./messages.filters');
 
-module.exports = function() {
+module.exports = function () {
   const app = this;
   const Model = createModel(app);
   const paginate = app.get('paginate');

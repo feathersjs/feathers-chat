@@ -1,5 +1,3 @@
-'use strict';
-
 const path = require('path');
 const favicon = require('serve-favicon');
 const compress = require('compression');
@@ -29,7 +27,7 @@ app.use(helmet());
 app.use(compress());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(favicon( path.join(app.get('public'), 'favicon.ico') ));
+app.use(favicon(path.join(app.get('public'), 'favicon.ico')));
 // Host the public folder
 app.use('/', feathers.static(app.get('public')));
 

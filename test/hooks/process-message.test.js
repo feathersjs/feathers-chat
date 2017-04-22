@@ -1,5 +1,3 @@
-'use strict';
-
 const assert = require('assert');
 const processMessage = require('../../src/hooks/process-message');
 
