@@ -30,7 +30,7 @@
     "body-parser": "^1.17.1",
     "compression": "^1.6.2",
     "cors": "^2.8.1",
-    "eslint": "^3.17.1",
+    "eslint": "^4.0.0",
     "feathers": "^2.1.1",
     "feathers-authentication": "pre",
     "feathers-authentication-jwt": "^0.3.1",
