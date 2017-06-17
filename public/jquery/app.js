@@ -1,4 +1,15 @@
-'use strict';
+// Establish a Socket.io connection
+const socket = io();
+// Initialize our Feathers client application through Socket.io
+// with hooks and authentication.
+const client = feathers();
+
+client.configure(feathers.socketio(socket));
+client.configure(feathers.hooks());
+// Use localStorage to store our login token
+client.configure(feathers.authentication({
+  storage: window.localStorage
+}));
 
 // Login screen
 const loginHTML = `<main class="login container">
@@ -67,126 +78,104 @@ const chatHTML = `<main class="flex flex-column">
   </div>
 </main>`;
 
-// Establish a Socket.io connection
-const socket = io();
-// Initialize our Feathers client application through Socket.io
-// with hooks and authentication.
-const client = feathers();
+// Add a new user to the list
+function addUser(user) {
+  // Add the user to the list
+  $('.user-list').append(`<li>
+    <a class="block relative" href="#">
+      <img src="${user.avatar}" alt="" class="avatar">
+      <span class="absolute username">${user.email}</span>
+    </a>
+  </li>`);
+  // Update the number of users
+  $('.online-count').html($('.user-list li').length);
+}
 
-client.configure(feathers.socketio(socket));
-client.configure(feathers.hooks());
-// Use localStorage to store our login token
-client.configure(feathers.authentication({
-  storage: window.localStorage
-}));
+// Renders a new message and finds the user that belongs to the message
+function addMessage(message) {
+  // Find the user belonging to this message or use the anonymous user if not found
+  const sender = message.user || {};
+  const chat = $('.chat');
 
-// An application object that helps manage the application
-const application = {
-  // Add a new user to the list
-  addUser(user) {
-    // Add the user to the list
-    $('.user-list').append(`<li>
-      <a class="block relative" href="#">
-        <img src="${user.avatar}" alt="" class="avatar">
-        <span class="absolute username">${user.email}</span>
-      </a>
-    </li>`);
-    // Update the number of users
-    $('.online-count').html($('.user-list li').length);
-  },
+  chat.append(`<div class="message flex flex-row">
+    <img src="${sender.avatar}" alt="${sender.email}" class="avatar">
+    <div class="message-wrapper">
+      <p class="message-header">
+        <span class="username font-600">${sender.email}</span>
+        <span class="sent-date font-300">${moment(message.createdAt).format('MMM Do, hh:mm:ss')}</span>
+      </p>
+      <p class="message-content font-300">${message.text}</p>
+    </div>
+  </div>`);
 
-  // Renders a new message and finds the user that belongs to the message
-  addMessage(message) {
-    // Find the user belonging to this message or use the anonymous user if not found
-    const sender = message.user || {};
-    const chat = $('.chat');
+  chat.scrollTop(chat[0].scrollHeight - chat[0].clientHeight);
+}
 
-    chat.append(`<div class="message flex flex-row">
-      <img src="${sender.avatar}" alt="${sender.email}" class="avatar">
-      <div class="message-wrapper">
-        <p class="message-header">
-          <span class="username font-600">${sender.email}</span>
-          <span class="sent-date font-300">${moment(message.createdAt).format('MMM Do, hh:mm:ss')}</span>
-        </p>
-        <p class="message-content font-300">${message.text}</p>
-      </div>
-    </div>`);
-
-    chat.scrollTop(chat[0].scrollHeight - chat[0].clientHeight);
-  },
-
-  // Log in either using the given email/password or the token from storage
-  login(credentials) {
-    const payload = credentials ?
-      Object.assign({ strategy: 'local' }, credentials) : {};
-
-    return client.authenticate(payload)
-      .then(application.showChat)
-      .catch(application.showLogin);
-  },
-
-  // Show the login page
-  showLogin(error = {}) {
-    if($('.login').length) {
-      $('.heading').append(`<p>There was an error: ${error.message}</p>`);
-    } else {
-      $('#app').html(loginHTML);
-    }
-  },
-
-  // Shows the chat page
-  showChat() {
-    $('#app').html(chatHTML);
-
-    // Find the latest 10 messages. They will come with the newest first
-    // which is why we have to reverse before adding them
-    client.service('messages').find({
-      query: {
-        $sort: { createdAt: -1 },
-        $limit: 25
-      }
-    }).then(page => {
-      page.data.reverse().forEach(application.addMessage);
-    });
-
-    // Find all users
-    client.service('users').find().then(page => {
-      const users = page.data;
-
-      // Add every user to the list
-      users.forEach(application.addUser.bind(application));
-    });
-  },
-
-  // Retrieve email/password object from the login/signup page
-  getCredentials() {
-    const user = {
-      email: $('[name="email"]').val(),
-      password: $('[name="password"]').val()
-    };
-
-    return user;
+// Show the login page
+function showLogin(error = {}) {
+  if($('.login').length) {
+    $('.heading').append(`<p>There was an error: ${error.message}</p>`);
+  } else {
+    $('#app').html(loginHTML);
   }
-};
+}
 
-// Listen to created events and add the new message in real-time
-client.service('messages').on('created', application.addMessage);
+// Shows the chat page
+function showChat() {
+  $('#app').html(chatHTML);
 
-// We will also see when new users get created in real-time
-client.service('users').on('created', application.addUser);
+  // Find the latest 10 messages. They will come with the newest first
+  // which is why we have to reverse before adding them
+  client.service('messages').find({
+    query: {
+      $sort: { createdAt: -1 },
+      $limit: 25
+    }
+  }).then(page => {
+    page.data.reverse().forEach(addMessage);
+  });
+
+  // Find all users
+  client.service('users').find().then(page => {
+    const users = page.data;
+
+    // Add every user to the list
+    users.forEach(addUser);
+  });
+}
+
+// Retrieve email/password object from the login/signup page
+function getCredentials() {
+  const user = {
+    email: $('[name="email"]').val(),
+    password: $('[name="password"]').val()
+  };
+
+  return user;
+}
+
+// Log in either using the given email/password or the token from storage
+function login(credentials) {
+  const payload = credentials ?
+    Object.assign({ strategy: 'local' }, credentials) : {};
+
+  return client.authenticate(payload)
+    .then(showChat)
+    .catch(showLogin);
+}
 
 // Set up event listeners
 $(document)
   .on('click', '#signup', () => {
-    const user = application.getCredentials();
+    const user = getCredentials();
 
     client.service('users').create(user)
-      .then(() => application.login(user));
+      .then(() => login(user));
   })
   .on('click', '#login', () => {
-    const user = application.getCredentials();
+    const user = getCredentials();
 
-    application.login(user);
+    login(user);
   })
   .on('click', '#logout', () => {
     client.logout().then(() => $('#app').html(loginHTML));
@@ -203,4 +192,10 @@ $(document)
     ev.preventDefault();
   });
 
-application.login();
+// Listen to created events and add the new message in real-time
+client.service('messages').on('created', addMessage);
+
+// We will also see when new users get created in real-time
+client.service('users').on('created', addUser);
+
+login();
