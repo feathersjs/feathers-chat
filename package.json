@@ -39,7 +39,7 @@
     "feathers-errors": "^2.6.1",
     "feathers-hooks": "^2.0.0",
     "feathers-hooks-common": "^3.0.0-pre.1",
-    "feathers-nedb": "^2.6.1",
+    "feathers-nedb": "^3.0.0",
     "feathers-rest": "^1.7.1",
     "feathers-socketio": "^2.0.0",
     "helmet": "^3.5.0",
