@@ -1,23 +1,26 @@
-'use strict';
+const { authenticate } = require('@feathersjs/authentication').hooks;
 
-const { authenticate } = require('feathers-authentication').hooks;
-const { hashPassword } = require('feathers-authentication-local').hooks;
-const commonHooks  = require('feathers-hooks-common');
+const { hashPassword, protect } = require('@feathersjs/authentication-local').hooks;
+
 const gravatar = require('../../hooks/gravatar');
 
 module.exports = {
   before: {
     all: [],
     find: [ authenticate('jwt') ],
-    get: [ authenticate('jwt') ],
+    get: [],
     create: [hashPassword(), gravatar()],
-    update: [ authenticate('jwt') ],
-    patch: [ authenticate('jwt') ],
-    remove: [ authenticate('jwt') ]
+    update: [ hashPassword() ],
+    patch: [ hashPassword() ],
+    remove: []
   },
 
   after: {
-    all: [commonHooks.when(hook => hook.params.provider, commonHooks.discard('password'))],
+    all: [ 
+      // Make sure the password field is never sent to the client
+      // Always must be the last hook
+      protect('password')
+    ],
     find: [],
     get: [],
     create: [],

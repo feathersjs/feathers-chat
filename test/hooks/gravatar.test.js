@@ -1,22 +1,36 @@
 const assert = require('assert');
+const feathers = require('@feathersjs/feathers');
 const gravatar = require('../../src/hooks/gravatar');
 
 describe('\'gravatar\' hook', () => {
-  it('adds `avatar` property with URL to image', () => {
-    const expectedUrl = 'https://s.gravatar.com/avatar/6f362e9c29b2f21d935a42eda181044d?s=60';
-    // A mock hook object
-    const mock = {
-      data: {
-        email: 'chatter@feathersjs.com'
-      }
-    };
-    // Initialize our hook with no options
-    const hook = gravatar();
+  let app;
 
-    // Run the hook function (which returns a promise)
-    // and compare the resulting hook object
-    return hook(mock).then(result => {
-      assert.equal(result.data.avatar, expectedUrl);
+  beforeEach(() => {
+    app = feathers();
+    
+    // A dummy users service for testing
+    app.use('/users', {
+      async create(data) {
+        return data;
+      }
+    });
+
+    // Add the hook to the dummy service
+    app.service('users').hooks({
+      before: {
+        create: gravatar()
+      }
+    });
+  });
+
+  it('creates a gravatar link from the users email', async () => {
+    const user = await app.service('users').create({
+      email: 'test@example.com'
+    });
+
+    assert.deepEqual(user, {
+      email: 'test@example.com',
+      avatar: 'https://s.gravatar.com/avatar/55502f40dc8b7c769880b10874abc9d0?s=60'
     });
   });
 });

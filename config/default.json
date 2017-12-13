@@ -8,7 +8,7 @@
   },
   "nedb": "../data",
   "authentication": {
-    "secret": "220cac0f7d60fb3b50d5e53844076334d3143894836b1c1eb2c4c893ab6454da9da1a8d9147b94068080f0b25dd1d77d896fbb087cb056b815076ee6bd69c62a429d7f412fae52593bd66c0bc1a1b04dcafc37357072a8f26382d734ca830cc44e32c50852feffdd4691229b851a6a08bb1b4a7a14234c813fbb459ff9d519101786caa871d45073da38cf012a2120d0f5cd0f6c4fe33c4ceb383e8c306d46eae714ca96226637763a2f8621e81ccbf0d6f67b0b9306309c87f600043aa1d608fab7073f384a34615fbe7671aa550c869353d342eef9f34914886e44e58b1205f7ce7fff62bf73a8a2bd2451d5e99a09db877073462cf4f24495e5f65ad740c2",
+    "secret": "72d5461502f978d28c44dec474ff08359386df227269f34a17fc7d160f275a7dc8366087f72e3e3246e5d3dcb5a3505c2248d0f977d79dd1ca874c0cb4e9bd75f4ce1ccfc4604040afb37633f0e76cb3a254e974ff1872ee7edccecf2cac84b652d5f9a12e0bc4ae75ae5d628102f663681e716b9c0e6f262541f186ec9ca004604491fe05882206692f8e8653d578eac161d69cd14f51986ace729695fd2e551597f599eb54816c6e706dc4af478a826c890ad90e03105bf0c2d36461799888481104d3ee274cdfe87728ff5692699d143af078ed890e6d9971097088884f6d616b8c2abaf06671ad12746bb2353ca354c41c1427b76353dc72c9e47d45e2f6",
     "strategies": [
       "jwt",
       "local"
@@ -17,7 +17,7 @@
     "service": "users",
     "jwt": {
       "header": {
-        "type": "access"
+        "typ": "access"
       },
       "audience": "https://yourdomain.com",
       "subject": "anonymous",
@@ -27,7 +27,6 @@
     },
     "local": {
       "entity": "user",
-      "service": "users",
       "usernameField": "email",
       "passwordField": "password"
     }

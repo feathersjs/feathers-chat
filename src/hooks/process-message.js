@@ -1,30 +1,32 @@
-'use strict';
-
 // Use this hook to manipulate incoming or outgoing data.
 // For more information on hooks see: http://docs.feathersjs.com/api/hooks.html
 
-module.exports = function() {
-  return function(hook) {
-    // The authenticated user
-    const user = hook.params.user;
-    // The actual message text
-    const text = hook.data.text
-      // Messages can't be longer than 400 characters
-      .substring(0, 400)
-      // Do some basic HTML escaping
-      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
+  return async context => {
+    const { data } = context;
 
-    // Override the original data
-    hook.data = {
+    // Throw an error if we didn't get a text
+    if(!data.text) {
+      throw new Error('A message must have a text');
+    }
+
+    // The authenticated user
+    const user = context.params.user;
+    // The actual message text
+    const text = context.data.text
+      // Messages can't be longer than 400 characters
+      .substring(0, 400);
+
+    // Override the original data (so that people can't submit additional stuff)
+    context.data = {
       text,
       // Set the user id
       userId: user._id,
-      // Add the current time via `getTime`
+      // Add the current date
       createdAt: new Date().getTime()
     };
 
-    // Hooks can either return nothing or a promise
-    // that resolves with the `hook` object for asynchronous operations
-    return Promise.resolve(hook);
+    // Best practise, hooks should always return the context
+    return context;
   };
 };

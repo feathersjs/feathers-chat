@@ -1,31 +1,36 @@
 const assert = require('assert');
+const feathers = require('@feathersjs/feathers');
 const processMessage = require('../../src/hooks/process-message');
 
 describe('\'process-message\' hook', () => {
-  it('adds the current user, sets createdAt and does basic escaping', () => {
-    // A dummy user
-    const user = {
-      _id: 'testId'
-    };
-    // A mock hook object
-    const mock = {
-      params: {
-        user
-      },
-      data: {
-        text: 'test message <br>'
+  let app;
+  
+  beforeEach(() => {
+    app = feathers();
+    
+    app.use('/messages', {
+      async create(data) {
+        return data;
       }
-    };
-    // Initialize our hook with no options
-    const hook = processMessage();
-
-    // Run the hook function (which returns a promise)
-    // and compare the resulting hook object
-    return hook(mock).then(result => {
-      const { data } = result;
-      assert.equal(data.userId, 'testId', 'Set the user id');
-      assert.equal(data.text, 'test message &lt;br&gt;');
-      assert.ok(data.createdAt, 'Set createdAt property');
     });
+
+    app.service('messages').hooks({
+      before: {
+        create: processMessage()
+      }
+    });
+  });
+
+  it('processes the message as expected', async () => {
+    const user = {
+      _id: 'test'
+    };
+
+    const message = await app.service('messages').create({
+      text: 'Hi there'
+    }, { user });
+
+    assert.equal(message.text, 'Hi there');
+    assert.equal(message.userId, 'test');
   });
 });

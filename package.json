@@ -1,6 +1,6 @@
 {
   "name": "feathers-chat",
-  "description": "A Feathers real-time chat application",
+  "description": "A Feathers chat application",
   "version": "0.0.0",
   "homepage": "",
   "main": "src",
@@ -14,40 +14,41 @@
   "contributors": [],
   "bugs": {},
   "directories": {
-    "lib": "src"
+    "lib": "src",
+    "test": "test/"
   },
   "engines": {
-    "node": ">= 6.0.0",
-    "yarn": ">= 0.18.0"
+    "node": "^8.0.0",
+    "npm": ">= 3.0.0"
   },
   "scripts": {
     "test": "npm run eslint && npm run mocha",
     "eslint": "eslint src/. test/. --config .eslintrc.json",
     "start": "node src/",
-    "mocha": "mocha test/ --recursive"
+    "mocha": "mocha test/ --recursive --exit"
   },
   "dependencies": {
-    "body-parser": "^1.17.1",
-    "compression": "^1.6.2",
-    "cors": "^2.8.1",
-    "eslint": "^4.0.0",
-    "feathers": "^2.1.1",
-    "feathers-authentication": "^1.2.6",
-    "feathers-authentication-jwt": "^0.3.1",
-    "feathers-authentication-local": "^0.4.3",
-    "feathers-configuration": "^0.4.1",
-    "feathers-errors": "^2.6.1",
-    "feathers-hooks": "^2.0.0",
-    "feathers-hooks-common": "^3.0.0-pre.1",
+    "@feathersjs/authentication": "^2.0.1",
+    "@feathersjs/authentication-jwt": "^1.0.1",
+    "@feathersjs/authentication-local": "^1.0.2",
+    "@feathersjs/configuration": "^1.0.1",
+    "@feathersjs/errors": "^3.2.0",
+    "@feathersjs/express": "^1.1.2",
+    "@feathersjs/feathers": "^3.0.2",
+    "@feathersjs/socketio": "^3.0.1",
+    "compression": "^1.7.1",
+    "cors": "^2.8.4",
     "feathers-nedb": "^3.0.0",
-    "feathers-rest": "^1.7.1",
-    "feathers-socketio": "^2.0.0",
-    "helmet": "^3.5.0",
-    "mocha": "^4.0.0",
+    "helmet": "^3.9.0",
     "nedb": "^1.8.0",
-    "request": "^2.81.0",
-    "request-promise": "^4.1.1",
-    "serve-favicon": "^2.4.1",
-    "winston": "^2.3.1"
+    "serve-favicon": "^2.4.5",
+    "winston": "^2.4.0"
+  },
+  "devDependencies": {
+    "eslint": "^4.12.1",
+    "feathers-memory": "^2.1.0",
+    "mocha": "^4.0.1",
+    "request": "^2.83.0",
+    "request-promise": "^4.2.2"
   }
 }

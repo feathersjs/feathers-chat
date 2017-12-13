@@ -5,7 +5,6 @@ const socket = io();
 const client = feathers();
 
 client.configure(feathers.socketio(socket));
-client.configure(feathers.hooks());
 // Use localStorage to store our login token
 client.configure(feathers.authentication({
   storage: window.localStorage
@@ -34,7 +33,7 @@ const loginHTML = `<main class="login container">
         </button>
 
         <button type="button" id="signup" class="button button-primary block signup">
-          Signup
+          Sign up and log in
         </button>
       </form>
     </div>
