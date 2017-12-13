@@ -1,3 +1,5 @@
+/* global document, window, feathers, moment, io, $ */
+
 // Establish a Socket.io connection
 const socket = io();
 // Initialize our Feathers client application through Socket.io
@@ -78,7 +80,7 @@ const chatHTML = `<main class="flex flex-column">
 </main>`;
 
 // Add a new user to the list
-function addUser(user) {
+const addUser = user => {
   // Add the user to the list
   $('.user-list').append(`<li>
     <a class="block relative" href="#">
@@ -88,19 +90,19 @@ function addUser(user) {
   </li>`);
   // Update the number of users
   $('.online-count').html($('.user-list li').length);
-}
+};
 
 // Renders a new message and finds the user that belongs to the message
-function addMessage(message) {
+const addMessage = message => {
   // Find the user belonging to this message or use the anonymous user if not found
-  const sender = message.user || {};
+  const { user = {} } = message;
   const chat = $('.chat');
 
   chat.append(`<div class="message flex flex-row">
-    <img src="${sender.avatar}" alt="${sender.email}" class="avatar">
+    <img src="${user.avatar}" alt="${user.email}" class="avatar">
     <div class="message-wrapper">
       <p class="message-header">
-        <span class="username font-600">${sender.email}</span>
+        <span class="username font-600">${user.email}</span>
         <span class="sent-date font-300">${moment(message.createdAt).format('MMM Do, hh:mm:ss')}</span>
       </p>
       <p class="message-content font-300">${message.text}</p>
@@ -108,87 +110,100 @@ function addMessage(message) {
   </div>`);
 
   chat.scrollTop(chat[0].scrollHeight - chat[0].clientHeight);
-}
+};
 
 // Show the login page
-function showLogin(error = {}) {
+const showLogin = (error = {}) => {
   if($('.login').length) {
     $('.heading').append(`<p>There was an error: ${error.message}</p>`);
   } else {
     $('#app').html(loginHTML);
   }
-}
+};
 
 // Shows the chat page
-function showChat() {
+const showChat = async () => {
   $('#app').html(chatHTML);
 
   // Find the latest 10 messages. They will come with the newest first
   // which is why we have to reverse before adding them
-  client.service('messages').find({
+  const messages = await client.service('messages').find({
     query: {
       $sort: { createdAt: -1 },
       $limit: 25
     }
-  }).then(page => {
-    page.data.reverse().forEach(addMessage);
   });
+  
+  messages.data.reverse().forEach(addMessage);
 
   // Find all users
-  client.service('users').find().then(page => {
-    const users = page.data;
+  const users = await client.service('users').find();
 
-    // Add every user to the list
-    users.forEach(addUser);
-  });
-}
+  // Add every user to the list
+  users.data.forEach(addUser);
+};
 
 // Retrieve email/password object from the login/signup page
-function getCredentials() {
+const getCredentials = () => {
   const user = {
     email: $('[name="email"]').val(),
     password: $('[name="password"]').val()
   };
 
   return user;
-}
+};
 
 // Log in either using the given email/password or the token from storage
-function login(credentials) {
-  const payload = credentials ?
-    Object.assign({ strategy: 'local' }, credentials) : {};
+const login = async credentials => {
+  try {
+    if(!credentials) {
+      // Try to authenticate using the JWT from localStorage
+      await client.authenticate();
+    } else {
+      // If we get login information, add the strategy we want to use for login
+      const payload = Object.assign({ strategy: 'local' }, credentials);
 
-  return client.authenticate(payload)
-    .then(showChat)
-    .catch(showLogin);
-}
+      await client.authenticate(payload);
+    }
+
+    // If successful, show the chat page
+    showChat();
+  } catch(e) {
+    // If we got an error, show the login page
+    showLogin();
+  }
+};
 
 // Set up event listeners
 $(document)
-  .on('click', '#signup', () => {
+  .on('click', '#signup', async () => {
+    const credentials = getCredentials();
+    
+    await client.service('users').create(credentials);
+    await login(credentials);
+  })
+  .on('click', '#login', async () => {
     const user = getCredentials();
 
-    client.service('users').create(user)
-      .then(() => login(user));
+    await login(user);
   })
-  .on('click', '#login', () => {
-    const user = getCredentials();
-
-    login(user);
+  .on('click', '#logout', async () => {
+    await client.logout();
+    
+    $('#app').html(loginHTML);
   })
-  .on('click', '#logout', () => {
-    client.logout().then(() => $('#app').html(loginHTML));
-  })
-  .on('submit', '#send-message', ev => {
+  .on('submit', '#send-message', async ev => {
     // This is the message text input field
     const input = $('[name="text"]');
 
-    // Create a new message and then clear the input field
-    client.service('messages').create({
-      text: input.val()
-    }).then(() => input.val(''));
-
     ev.preventDefault();
+
+    // Create a new message and then clear the input field
+    await client.service('messages').create({
+      text: input.val()
+    });
+
+    input.val('');
   });
 
 // Listen to created events and add the new message in real-time

@@ -1,3 +1,5 @@
+/* global document, window, feathers, moment, io */
+
 // Establish a Socket.io connection
 const socket = io();
 // Initialize our Feathers client application through Socket.io
@@ -78,7 +80,7 @@ const chatHTML = `<main class="flex flex-column">
 </main>`;
 
 // Add a new user to the list
-function addUser(user) {
+const addUser = user => {
   const userList = document.querySelector('.user-list');
 
   if(userList) {
@@ -91,22 +93,24 @@ function addUser(user) {
     </li>`);
 
     // Update the number of users
-    document.querySelector('.online-count').innerHTML = document.querySelectorAll('.user-list li').length;
+    const userCount = document.querySelectorAll('.user-list li').length;
+    
+    document.querySelector('.online-count').innerHTML = userCount;
   }
-}
+};
 
 // Renders a new message and finds the user that belongs to the message
-function addMessage(message) {
+const addMessage = message => {
   // Find the user belonging to this message or use the anonymous user if not found
-  const sender = message.user || {};
+  const { user = {} } = message;
   const chat = document.querySelector('.chat');
 
   if(chat) {
     chat.insertAdjacentHTML( 'beforeend', `<div class="message flex flex-row">
-      <img src="${sender.avatar}" alt="${sender.email}" class="avatar">
+      <img src="${user.avatar}" alt="${user.email}" class="avatar">
       <div class="message-wrapper">
         <p class="message-header">
-          <span class="username font-600">${sender.email}</span>
+          <span class="username font-600">${user.email}</span>
           <span class="sent-date font-300">${moment(message.createdAt).format('MMM Do, hh:mm:ss')}</span>
         </p>
         <p class="message-content font-300">${message.text}</p>
@@ -115,99 +119,113 @@ function addMessage(message) {
 
     chat.scrollTop = chat.scrollHeight - chat.clientHeight;
   }
-}
+};
 
 // Show the login page
-function showLogin(error = {}) {
+const showLogin = (error = {}) => {
   if(document.querySelectorAll('.login').length) {
     document.querySelector('.heading').insertAdjacentHTML('beforeend', `<p>There was an error: ${error.message}</p>`);
   } else {
     document.getElementById('app').innerHTML = loginHTML;
   }
-}
+};
 
 // Shows the chat page
-function showChat() {
+const showChat = async () => {
   document.getElementById('app').innerHTML = chatHTML;
 
   // Find the latest 10 messages. They will come with the newest first
   // which is why we have to reverse before adding them
-  client.service('messages').find({
+  const messages = await client.service('messages').find({
     query: {
       $sort: { createdAt: -1 },
       $limit: 25
     }
-  }).then(page => page.data.reverse().forEach(addMessage));
+  });
+  
+  // We want to show the newest message last
+  messages.data.reverse().forEach(addMessage);
 
   // Find all users
-  client.service('users').find().then(page => {
-    const users = page.data;
+  const users = await client.service('users').find();
 
-    // Add every user to the list
-    users.forEach(addUser);
-  });
-}
+  users.data.forEach(addUser);
+};
 
 // Retrieve email/password object from the login/signup page
-function getCredentials() {
+const getCredentials = () => {
   const user = {
     email: document.querySelector('[name="email"]').value,
     password: document.querySelector('[name="password"]').value
   };
 
   return user;
-}
+};
 
 // Log in either using the given email/password or the token from storage
-function login(credentials) {
-  const payload = credentials ?
-    Object.assign({ strategy: 'local' }, credentials) : {};
+const login = async credentials => {
+  try {
+    if(!credentials) {
+      // Try to authenticate using the JWT from localStorage
+      await client.authenticate();
+    } else {
+      // If we get login information, add the strategy we want to use for login
+      const payload = Object.assign({ strategy: 'local' }, credentials);
 
-  return client.authenticate(payload)
-    .then(showChat)
-    .catch(showLogin);
-}
+      await client.authenticate(payload);
+    }
 
-document.addEventListener('click', function(ev) {
+    // If successful, show the chat page
+    showChat();
+  } catch(e) {
+    // If we got an error, show the login page
+    showLogin();
+  }
+};
+
+document.addEventListener('click', async ev => {
   switch(ev.target.id) {
-    case 'signup': {
-      const user = getCredentials();
+  case 'signup': {
+    // For signup, create a new user and then log them in
+    const credentials = getCredentials();
+    
+    // First create the user
+    await client.service('users').create(credentials);
+    // If successful log them in
+    await login(credentials);
 
-      // For signup, create a new user and then log them in
-      client.service('users').create(user)
-        .then(() => login(user));
+    break;
+  }
+  case 'login': {
+    const user = getCredentials();
 
-      break;
-    }
-    case 'login': {
-      const user = getCredentials();
+    await login(user);
 
-      login(user);
-
-      break;
-    }
-    case 'logout': {
-      client.logout().then(() => {
-         document.getElementById('app').innerHTML = loginHTML;
-      });
-
-      break;
-    }
+    break;
+  }
+  case 'logout': {
+    await client.logout();
+    
+    document.getElementById('app').innerHTML = loginHTML;
+    
+    break;
+  }
   }
 });
 
-document.addEventListener('submit', function(ev) {
+document.addEventListener('submit', async ev => {
   if(ev.target.id === 'send-message') {
     // This is the message text input field
     const input = document.querySelector('[name="text"]');
 
-    // Create a new message and then clear the input field
-    client.service('messages').create({
-      text: input.value
-    }).then(() => {
-      input.value = '';
-    });
     ev.preventDefault();
+
+    // Create a new message and then clear the input field
+    await client.service('messages').create({
+      text: input.value
+    });
+
+    input.value = '';
   }
 });
 
