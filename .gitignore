@@ -108,5 +108,6 @@ $RECYCLE.BIN/
 *.lnk
 
 # Others
+test/data/
 data/
 tmp/
