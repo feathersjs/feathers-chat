@@ -1,0 +1,14 @@
+verbose: false
+instrumentation:
+  root: ./src/
+reporting:
+  print: summary
+  reports:
+    - html
+    - text
+    - lcov
+  watermarks:
+    statements: [70, 90]
+    lines: [70, 90]
+    functions: [70, 90]
+    branches: [70, 90]

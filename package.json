@@ -2,7 +2,7 @@
   "name": "feathers-chat",
   "description": "A Feathers chat application",
   "version": "0.0.0",
-  "homepage": "",
+  "homepage": "https://feathersjs.com",
   "main": "src",
   "keywords": [
     "feathers"
@@ -22,8 +22,9 @@
     "npm": ">= 3.0.0"
   },
   "scripts": {
-    "test": "npm run eslint && npm run mocha",
-    "eslint": "eslint src/. test/. --config .eslintrc.json",
+    "test": "npm run eslint && npm run coverage",
+    "coverage": "npm run clean && NODE_ENV=test istanbul cover node_modules/mocha/bin/_mocha -- test/ --recursive --exit",
+    "eslint": "eslint src/. test/. --config .eslintrc.json --fix",
     "start": "node src/",
     "clean": "shx rm -rf test/data/",
     "mocha": "npm run clean && NODE_ENV=test mocha test/ --recursive --exit"
@@ -48,6 +49,7 @@
   "devDependencies": {
     "eslint": "^4.12.1",
     "feathers-memory": "^2.1.0",
+    "istanbul": "^1.1.0-alpha.1",
     "mocha": "^4.0.1",
     "request": "^2.83.0",
     "request-promise": "^4.2.2",

@@ -16,7 +16,7 @@ describe('\'messages\' service', () => {
     });
 
     // The messages service call params (with the user we just created)
-    const params = {user };
+    const params = { user };
     const message = await app.service('messages').create({
       text: 'a test',
       additional: 'should be removed'
