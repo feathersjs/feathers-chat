@@ -47,7 +47,7 @@
     "winston": "^3.0.0"
   },
   "devDependencies": {
-    "eslint": "^4.12.1",
+    "eslint": "^5.0.0",
     "feathers-memory": "^2.1.0",
     "istanbul": "^1.1.0-alpha.1",
     "mocha": "^5.0.0",
