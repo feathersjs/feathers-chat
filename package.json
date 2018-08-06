@@ -30,29 +30,29 @@
     "mocha": "npm run clean && NODE_ENV=test mocha test/ --recursive --exit"
   },
   "dependencies": {
-    "@feathersjs/authentication": "^2.0.1",
-    "@feathersjs/authentication-jwt": "^2.0.0",
-    "@feathersjs/authentication-local": "^1.0.2",
+    "@feathersjs/authentication": "^2.1.7",
+    "@feathersjs/authentication-jwt": "^2.0.1",
+    "@feathersjs/authentication-local": "^1.2.1",
     "@feathersjs/configuration": "^2.0.0",
-    "@feathersjs/errors": "^3.2.0",
-    "@feathersjs/express": "^1.1.2",
-    "@feathersjs/feathers": "^3.0.2",
-    "@feathersjs/socketio": "^3.0.1",
-    "compression": "^1.7.1",
+    "@feathersjs/errors": "^3.3.0",
+    "@feathersjs/express": "^1.2.3",
+    "@feathersjs/feathers": "^3.1.7",
+    "@feathersjs/socketio": "^3.2.2",
+    "compression": "^1.7.3",
     "cors": "^2.8.4",
-    "feathers-nedb": "^3.0.0",
-    "helmet": "^3.9.0",
+    "feathers-nedb": "^3.1.0",
+    "helmet": "^3.13.0",
     "nedb": "^1.8.0",
-    "serve-favicon": "^2.4.5",
+    "serve-favicon": "^2.5.0",
     "winston": "^3.0.0"
   },
   "devDependencies": {
-    "eslint": "^5.0.0",
-    "feathers-memory": "^2.1.0",
+    "eslint": "^5.3.0",
+    "feathers-memory": "^2.1.3",
     "istanbul": "^1.1.0-alpha.1",
-    "mocha": "^5.0.0",
+    "mocha": "^5.2.0",
     "request": "^2.87.0",
     "request-promise": "^4.2.2",
-    "shx": "^0.3.0"
+    "shx": "^0.3.2"
   }
 }
