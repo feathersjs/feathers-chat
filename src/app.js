@@ -3,7 +3,6 @@ const favicon = require('serve-favicon');
 const compress = require('compression');
 const cors = require('cors');
 const helmet = require('helmet');
-const logger = require('winston');
 
 const feathers = require('@feathersjs/feathers');
 const configuration = require('@feathersjs/configuration');
@@ -11,6 +10,7 @@ const express = require('@feathersjs/express');
 const socketio = require('@feathersjs/socketio');
 
 
+const logger = require('./logger');
 const middleware = require('./middleware');
 const services = require('./services');
 const appHooks = require('./app.hooks');
