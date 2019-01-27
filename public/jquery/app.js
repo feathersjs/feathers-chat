@@ -81,11 +81,15 @@ const chatHTML = `<main class="flex flex-column">
 
 // Add a new user to the list
 const addUser = user => {
+  // Escape HTML, can be removed after adding validation on user registration.
+  const user_email = user.email
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;').replace(/>/g, '&gt;');
   // Add the user to the list
   $('.user-list').append(`<li>
     <a class="block relative" href="#">
       <img src="${user.avatar}" alt="" class="avatar">
-      <span class="absolute username">${user.email}</span>
+      <span class="absolute username">${user_email}</span>
     </a>
   </li>`);
   // Update the number of users
@@ -100,12 +104,17 @@ const addMessage = message => {
   const text = message.text
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  // Escape HTML, can be removed after adding validation on user registration.
+  const user_email = user.email
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  const user_email_alt = (user.email === user_email ? user_email : 'user')
 
   chat.append(`<div class="message flex flex-row">
-    <img src="${user.avatar}" alt="${user.email}" class="avatar">
+    <img src="${user.avatar}" alt="${user_email_alt}" class="avatar">
     <div class="message-wrapper">
       <p class="message-header">
-        <span class="username font-600">${user.email}</span>
+        <span class="username font-600">${user_email}</span>
         <span class="sent-date font-300">${moment(message.createdAt).format('MMM Do, hh:mm:ss')}</span>
       </p>
       <p class="message-content font-300">${text}</p>
@@ -136,7 +145,7 @@ const showChat = async () => {
       $limit: 25
     }
   });
-  
+
   messages.data.reverse().forEach(addMessage);
 
   // Find all users
@@ -181,7 +190,7 @@ const login = async credentials => {
 $(document)
   .on('click', '#signup', async () => {
     const credentials = getCredentials();
-    
+
     await client.service('users').create(credentials);
     await login(credentials);
   })
@@ -192,7 +201,7 @@ $(document)
   })
   .on('click', '#logout', async () => {
     await client.logout();
-    
+
     $('#app').html(loginHTML);
   })
   .on('submit', '#send-message', async ev => {
