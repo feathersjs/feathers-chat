@@ -79,12 +79,19 @@ const chatHTML = `<main class="flex flex-column">
   </div>
 </main>`;
 
+function escapeHtml(unsafe) {
+  return unsafe
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
 // Add a new user to the list
 const addUser = user => {
   // Escape HTML, can be removed after adding validation on user registration.
-  const user_email = user.email
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  const user_email = escapeHtml(user.email);
   // Add the user to the list
   $('.user-list').append(`<li>
     <a class="block relative" href="#">
@@ -101,17 +108,12 @@ const addMessage = message => {
   // Find the user belonging to this message or use the anonymous user if not found
   const { user = {} } = message;
   const chat = $('.chat');
-  const text = message.text
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  const text = escapeHtml(message.text);
   // Escape HTML, can be removed after adding validation on user registration.
-  const user_email = user.email
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;').replace(/>/g, '&gt;');
-  const user_email_alt = (user.email === user_email ? user_email : 'user')
+  const user_email = escapeHtml(user.email);
 
   chat.append(`<div class="message flex flex-row">
-    <img src="${user.avatar}" alt="${user_email_alt}" class="avatar">
+    <img src="${user.avatar}" alt="${user_email}" class="avatar">
     <div class="message-wrapper">
       <p class="message-header">
         <span class="username font-600">${user_email}</span>
