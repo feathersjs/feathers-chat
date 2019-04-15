@@ -38,6 +38,7 @@ Getting up and running is as easy as 1, 2, 3.
     ```
 
 4. Goto to browser and go to [localhost:3030/vanilla](http://localhost:3030/vanilla/)
+5. You can login with User `feathers@example.com` pass: `secret` detailed in the [guide](https://docs.feathersjs.com/guides/chat/authentication.html#create-the-user)
 
 ## Testing
 
