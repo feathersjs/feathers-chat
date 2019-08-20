@@ -122,6 +122,7 @@ const addMessage = message => {
       </div>
     </div>`;
 
+    // Always scroll to the bottom of our message list
     chat.scrollTop = chat.scrollHeight - chat.clientHeight;
   }
 };
