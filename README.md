@@ -2,22 +2,21 @@
 
 [![Greenkeeper badge](https://badges.greenkeeper.io/feathersjs/feathers-chat.svg)](https://greenkeeper.io/)
 [![Build Status](https://img.shields.io/travis/feathersjs/feathers-chat/master.svg)](https://travis-ci.org/feathersjs/feathers-chat)
-[![Dependency Status](https://img.shields.io/david/feathersjs/feathers-chat.svg)](https://david-dm.org/feathersjs/feathers-chat)
 
-> A Feathers real-time chat application
-
-> __Important:__ This repository requires Node v8.0.0 or later.
+> A FeathersJS chat application
 
 ## About
 
-This project uses [Feathers](http://feathersjs.com). An open source web framework for building modern real-time applications. It provides a chat API created in [this guide](https://docs.feathersjs.com/guides/chat/readme.html) and a frontend in plain JavaScript and jQuery.
+This project uses [Feathers](http://feathersjs.com). An open source web framework for building modern real-time applications. It provides a chat API created in [the Feathers guide](https://docs.feathersjs.com/guides/) and a frontend in plain JavaScript.
 
 Other chat frontends can be found at:
 
-- [feathersjs-ecosystem/feathers-chat-react](https://github.com/feathersjs-ecosystem/feathers-chat-react)
-- [feathersjs-ecosystem/feathers-react-native-chat](https://github.com/feathersjs-ecosystem/feathers-react-native-chat)
-- [feathersjs-ecosystem/feathers-chat-angular](https://github.com/feathersjs-ecosystem/feathers-chat-angular)
-- [feathers-plus/feathers-chat-vuex](https://github.com/feathers-plus/feathers-chat-vuex)
+- React: [feathersjs-ecosystem/feathers-chat-react](https://github.com/feathersjs-ecosystem/feathers-chat-react)
+- React Native: [feathersjs-ecosystem/feathers-react-native-chat](https://github.com/feathersjs-ecosystem/feathers-react-native-chat)
+- Angular: [feathersjs-ecosystem/feathers-chat-angular](https://github.com/feathersjs-ecosystem/feathers-chat-angular)
+- VueJS with Vuex: [feathers-plus/feathers-chat-vuex](https://github.com/feathers-plus/feathers-chat-vuex)
+
+> __Important:__ This project requires NodeJS 10 or later.
 
 ## Getting Started
 
@@ -37,8 +36,6 @@ Getting up and running is as easy as 1, 2, 3.
     npm start
     ```
 
-4. Goto to browser and go to [localhost:3030/vanilla](http://localhost:3030/vanilla/)
-
 ## Testing
 
 Simply run `npm test` and all your tests in the `test/` directory will be run.
@@ -48,20 +45,13 @@ Simply run `npm test` and all your tests in the `test/` directory will be run.
 Feathers has a powerful command line interface. Here are a few things it can do:
 
 ```
-$ npm install -g feathers-cli             # Install Feathers CLI
+$ npm install -g @feathersjs/cli          # Install Feathers CLI
 
 $ feathers generate service               # Generate a new Service
 $ feathers generate hook                  # Generate a new Hook
-$ feathers generate model                 # Generate a new Model
 $ feathers help                           # Show all commands
 ```
 
 ## Help
 
 For more information on all the things you can do with Feathers visit [docs.feathersjs.com](http://docs.feathersjs.com).
-
-## License
-
-Copyright (c) 2017
-
-Licensed under the [MIT license](LICENSE).

@@ -1,113 +1,18 @@
 <html>
   <head>
-    <title>Welcome to Feathers</title>
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-
-      html, body {
-        font-family: 'Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif';
-        font-weight: 400;
-        font-size: 16px;
-        color: #333;
-      }
-
-      .center-text {
-        text-align: center;
-      }
-
-      main {
-        margin-top: 40px;
-        padding: 20px;
-      }
-
-      h1 {
-        font-size: 3em;
-        font-weight: 100;
-      }
-
-      h2 {
-        font-size: 1.5em;
-        font-weight: 100;
-      }
-
-      h3 {
-        font-size: 1em;
-        margin: 20px 0;
-      }
-
-      footer {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        padding: 20px;
-      }
-
-      footer p {
-        font-weight: 300;
-        font-size: 1.0em;
-      }
-
-      a {
-        color: #31D8A0;
-        text-decoration: none;
-      }
-
-      a:hover,
-      a:focus {
-        color: #31D8A0;
-      }
-
-      .logo {
-        height: 150px;
-        margin: 20px;
-      }
-
-      .frameworks a {
-        display: inline-block;
-      }
-    </style>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=0" />
+    <title>Vanilla JavaScript Feathers Chat</title>
+    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="stylesheet" href="base.css">
+    <link rel="stylesheet" href="chat.css">
   </head>
   <body>
-    <main class="container">
-      <h1 class="center-text"><a href="https://feathersjs.com">Feathers</a> chat frontends</h1>
-      <h2 class="center-text">Pick your framework</h2>
-
-      <h3 class="center-text">Chat now</h3>
-      <div class="center-text frameworks">
-        <a href="vanilla/">
-          <img src="https://cdn.svgporn.com/logos/javascript.svg" class="logo" /><br>
-          Vanilla JavaScript
-        </a>
-        <a href="jquery/">
-          <img src="https://cdn.svgporn.com/logos/jquery.svg" style="width: 200px;" class="logo" /><br>
-          jQuery
-        </a>
-      </div>
-
-      <h3 class="center-text">Separate repositories</h3>
-      <div class="center-text frameworks">
-        <a href="https://github.com/feathersjs-ecosystem/feathers-chat-react" target="_blank">
-          <img src="https://cdn.svgporn.com/logos/react.svg" class="logo" /><br>
-          React
-        </a>
-        <a href="https://github.com/feathersjs-ecosystem/feathers-react-native-chat" target="_blank">
-          <img src="https://cdn.svgporn.com/logos/react.svg" class="logo" /><br>
-          React Native
-        </a>
-        <a href="https://github.com/feathersjs-ecosystem/feathers-chat-angular" target="_blank">
-          <img src="https://cdn.svgporn.com/logos/angular-icon.svg" class="logo" /><br>
-          Angular
-        </a>
-        <a href="https://github.com/feathers-plus/feathers-chat-vuex" target="_blank">
-          <img src="https://cdn.svgporn.com/logos/vue.svg" class="logo" /><br>
-          VueJS
-        </a>
-      </div>
-    </main>
+    <div id="app" class="flex flex-column"></div>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.12.0/moment.js"></script>
+    <script src="//unpkg.com/@feathersjs/client@^4.3.0-pre.3/dist/feathers.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="app.js"></script>
   </body>
 </html>

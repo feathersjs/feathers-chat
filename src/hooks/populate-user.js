@@ -1,26 +1,30 @@
-// Use this hook to manipulate incoming or outgoing data.
-// For more information on hooks see: http://docs.feathersjs.com/api/hooks.html
-
+/* eslint-disable require-atomic-updates */
 module.exports = function (options = {}) { // eslint-disable-line no-unused-vars
   return async context => {
     // Get `app`, `method`, `params` and `result` from the hook context
     const { app, method, result, params } = context;
-
-    // Make sure that we always have a list of messages either by wrapping
-    // a single message into an array or by getting the `data` from the `find` method result
-    const messages = method === 'find' ? result.data : [ result ];
-
-    // Asynchronously get user object from each messages `userId`
-    // and add it to the message
-    await Promise.all(messages.map(async message => {
-      // We'll also pass the original `params` to the service call
-      // so that it has the same information available (e.g. who is requesting it)
+    // Function that adds the user to a single message object
+    const addUser = async message => {
+      // Get the user based on their id, pass the `params` along so
+      // that we get a safe version of the user data
       const user = await app.service('users').get(message.userId, params);
 
-      message.user = user;
-    }));
+      // Merge the message content to include the `user` object
+      return {
+        ...message,
+        user
+      };
+    };
 
-    // Best practise, hooks should always return the context
+    // In a find method we need to process the entire page
+    if (method === 'find') {
+      // Map all data to include the `user` information
+      context.result.data = await Promise.all(result.data.map(addUser));
+    } else {
+      // Otherwise just update the single result
+      context.result = await addUser(result);
+    }
+
     return context;
   };
 };

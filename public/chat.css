@@ -1,6 +1,6 @@
 html, body {
   font-family: 'Helvetica Neue', 'Helevetica', 'Arial', 'sans-serif';
-  color: #333;
+  color: #2c3e50;
   height: 100%;
 }
 
@@ -19,13 +19,13 @@ html, body {
 
 a {
   text-decoration: none;
-  color: #31D8A0;
+  color: #D513A5;
 }
 
 a:hover,
 a:focus {
   text-decoration: none;
-  color: #27C895;
+  color: #be1193;
 }
 
 .button {
@@ -34,7 +34,7 @@ a:focus {
 
 .button-primary {
   padding: 0.6em 1.2em;
-  background: #31D8A0;
+  background: #D513A5;
   color: #ffffff;
   border: none;
   border-radius: 5px;
@@ -43,7 +43,7 @@ a:focus {
 
 .button-primary:hover,
 .button-primary:focus {
-  background: #27C895;
+  background: #be1193;
   color: #ffffff;
 }
 
@@ -83,8 +83,8 @@ main.home .button.login {
 main.home .button.login:hover,
 main.home .button.login:focus {
   background: none;
-  border: 2px solid #31D8A0;
-  color: #31D8A0;
+  border: 2px solid #D513A5;
+  color: #D513A5;
 }
 
 /* ======================================= */
@@ -140,14 +140,13 @@ header.title-bar span.title {
 
 aside.sidebar {
   background: #f8f8f8;
-  // height: 100%;
   max-width: 340px;
   padding: 15px;
   border-right: 1px solid #f1f1f1;
 }
 
 aside.sidebar .online-count {
-  color: #31D8A0;
+  color: #D513A5;
   margin-right: 5px;
 }
 
@@ -169,8 +168,8 @@ aside.sidebar li > a {
 }
 
 aside.sidebar li > a:hover > span,
-aside.sidebar li > a:focus > span, {
-  color: #31D8A0;
+aside.sidebar li > a:focus > span {
+  color: #D513A5;
 }
 
 aside.sidebar img.avatar {
@@ -183,10 +182,6 @@ aside.sidebar img.avatar {
 aside.sidebar .username {
   position: absolute;
   line-height: 45px;
-}
-
-aside.sidebar footer {
-  // min-height: 60px;
 }
 
 /* Main Chat */

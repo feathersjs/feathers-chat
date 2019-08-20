@@ -1,5 +1,3 @@
-/* global document, window, feathers, moment, io */
-
 // Establish a Socket.io connection
 const socket = io();
 // Initialize our Feathers client application through Socket.io
@@ -8,9 +6,7 @@ const client = feathers();
 
 client.configure(feathers.socketio(socket));
 // Use localStorage to store our login token
-client.configure(feathers.authentication({
-  storage: window.localStorage
-}));
+client.configure(feathers.authentication());
 
 // Login screen
 const loginHTML = `<main class="login container">
@@ -37,6 +33,10 @@ const loginHTML = `<main class="login container">
         <button type="button" id="signup" class="button button-primary block signup">
           Sign up and log in
         </button>
+
+        <a class="button button-primary block" href="/oauth/github">
+          Login with GitHub
+        </a>
       </form>
     </div>
   </div>
@@ -79,33 +79,22 @@ const chatHTML = `<main class="flex flex-column">
   </div>
 </main>`;
 
-function escapeHtml(unsafe) {
-  return unsafe
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#039;');
-}
-
 // Add a new user to the list
 const addUser = user => {
   const userList = document.querySelector('.user-list');
 
   if(userList) {
-    // Escape HTML, can be removed after adding validation on user registration.
-    const user_email = escapeHtml(user.email);
     // Add the user to the list
     userList.insertAdjacentHTML('beforeend', `<li>
       <a class="block relative" href="#">
         <img src="${user.avatar}" alt="" class="avatar">
-        <span class="absolute username">${user_email}</span>
+        <span class="absolute username">${user.email}</span>
       </a>
     </li>`);
 
     // Update the number of users
     const userCount = document.querySelectorAll('.user-list li').length;
-
+    
     document.querySelector('.online-count').innerHTML = userCount;
   }
 };
@@ -115,16 +104,17 @@ const addMessage = message => {
   // Find the user belonging to this message or use the anonymous user if not found
   const { user = {} } = message;
   const chat = document.querySelector('.chat');
-  const text = escapeHtml(message.text);
-  // Escape HTML, can be removed after adding validation on user registration.
-  const user_email = escapeHtml(user.email);
+  // Escape HTML
+  const text = message.text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
   if(chat) {
     chat.insertAdjacentHTML( 'beforeend', `<div class="message flex flex-row">
-      <img src="${user.avatar}" alt="${user_email}" class="avatar">
+      <img src="${user.avatar}" alt="${user.email}" class="avatar">
       <div class="message-wrapper">
         <p class="message-header">
-          <span class="username font-600">${user_email}</span>
+          <span class="username font-600">${user.email}</span>
           <span class="sent-date font-300">${moment(message.createdAt).format('MMM Do, hh:mm:ss')}</span>
         </p>
         <p class="message-content font-300">${text}</p>
@@ -148,7 +138,7 @@ const showLogin = (error = {}) => {
 const showChat = async () => {
   document.getElementById('app').innerHTML = chatHTML;
 
-  // Find the latest 10 messages. They will come with the newest first
+  // Find the latest 25 messages. They will come with the newest first
   // which is why we have to reverse before adding them
   const messages = await client.service('messages').find({
     query: {
@@ -156,7 +146,7 @@ const showChat = async () => {
       $limit: 25
     }
   });
-
+  
   // We want to show the newest message last
   messages.data.reverse().forEach(addMessage);
 
@@ -181,7 +171,7 @@ const login = async credentials => {
   try {
     if(!credentials) {
       // Try to authenticate using the JWT from localStorage
-      await client.authenticate();
+      await client.reAuthenticate();
     } else {
       // If we get login information, add the strategy we want to use for login
       const payload = Object.assign({ strategy: 'local' }, credentials);
@@ -197,50 +187,48 @@ const login = async credentials => {
   }
 };
 
-document.addEventListener('click', async ev => {
-  switch(ev.target.id) {
-  case 'signup': {
-    // For signup, create a new user and then log them in
-    const credentials = getCredentials();
+const addEventListener = (event, selector, handler) => {
+  document.addEventListener(event, async ev => {
+    if (ev.target.closest(selector)) {
+      handler(ev);
+    }
+  });
+};
 
-    // First create the user
-    await client.service('users').create(credentials);
-    // If successful log them in
-    await login(credentials);
-
-    break;
-  }
-  case 'login': {
-    const user = getCredentials();
-
-    await login(user);
-
-    break;
-  }
-  case 'logout': {
-    await client.logout();
-
-    document.getElementById('app').innerHTML = loginHTML;
-
-    break;
-  }
-  }
+addEventListener('click', '#signup', async () => {
+  // For signup, create a new user and then log them in
+  const credentials = getCredentials();
+    
+  // First create the user
+  await client.service('users').create(credentials);
+  // If successful log them in
+  await login(credentials);
 });
 
-document.addEventListener('submit', async ev => {
-  if(ev.target.id === 'send-message') {
-    // This is the message text input field
-    const input = document.querySelector('[name="text"]');
+addEventListener('click', '#login', async () => {
+  const user = getCredentials();
 
-    ev.preventDefault();
+  await login(user);
+});
 
-    // Create a new message and then clear the input field
-    await client.service('messages').create({
-      text: input.value
-    });
+addEventListener('click', '#logout', async () => {
+  await client.logout();
+    
+  document.getElementById('app').innerHTML = loginHTML;
+});
 
-    input.value = '';
-  }
+addEventListener('submit', '#send-message', async ev => {
+  // This is the message text input field
+  const input = document.querySelector('[name="text"]');
+
+  ev.preventDefault();
+
+  // Create a new message and then clear the input field
+  await client.service('messages').create({
+    text: input.value
+  });
+
+  input.value = '';
 });
 
 // Listen to created events and add the new message in real-time
