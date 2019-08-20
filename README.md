@@ -7,7 +7,9 @@
 
 ## About
 
-This project uses [Feathers](http://feathersjs.com). An open source web framework for building modern real-time applications. It provides a chat API created in [the Feathers guide](https://docs.feathersjs.com/guides/) and a frontend in plain JavaScript.
+This project uses [Feathers](http://feathersjs.com), a framework for real-time applications and REST APIs. It contains the chat application created in [the Feathers guide](https://docs.feathersjs.com/guides/) and a frontend in plain JavaScript.
+
+![The Feathers chat application](https://docs.feathersjs.com/guides/basics/assets/feathers-chat.png)
 
 Other chat frontends can be found at:
 
