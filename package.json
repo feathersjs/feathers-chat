@@ -23,11 +23,13 @@
     "npm": ">= 6.0.0"
   },
   "scripts": {
-    "test": "npm run eslint && npm run mocha",
+    "test": "npm run eslint && npm run coverage",
+    "coverage": "nyc npm run mocha",
     "eslint": "eslint src/. test/. --config .eslintrc.json",
     "dev": "nodemon src/",
     "start": "node src/",
-    "mocha": "mocha test/ --recursive --exit"
+    "clean": "shx rm -rf test/data/",
+    "mocha": "npm run clean && NODE_ENV=test mocha test/ --recursive --exit"
   },
   "dependencies": {
     "@feathersjs/authentication": "^4.3.0-pre.3",
