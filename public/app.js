@@ -4,8 +4,9 @@ const socket = io();
 // with hooks and authentication.
 const client = feathers();
 
+// Connect to the Feathers server using the Socket.io connection
 client.configure(feathers.socketio(socket));
-// Use localStorage to store our login token
+// Set up the Feathers authentication client
 client.configure(feathers.authentication());
 
 // Login screen
@@ -85,12 +86,12 @@ const addUser = user => {
 
   if(userList) {
     // Add the user to the list
-    userList.insertAdjacentHTML('beforeend', `<li>
+    userList.innerHTML += `<li>
       <a class="block relative" href="#">
         <img src="${user.avatar}" alt="" class="avatar">
         <span class="absolute username">${user.email}</span>
       </a>
-    </li>`);
+    </li>`;
 
     // Update the number of users
     const userCount = document.querySelectorAll('.user-list li').length;
@@ -99,18 +100,18 @@ const addUser = user => {
   }
 };
 
-// Renders a new message and finds the user that belongs to the message
+// Renders a message to the page
 const addMessage = message => {
-  // Find the user belonging to this message or use the anonymous user if not found
+  // The user that sent this message (added by the populate-user hook)
   const { user = {} } = message;
   const chat = document.querySelector('.chat');
-  // Escape HTML
+  // Escape HTML to prevent XSS attacks
   const text = message.text
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
   if(chat) {
-    chat.insertAdjacentHTML( 'beforeend', `<div class="message flex flex-row">
+    chat.innerHTML += `<div class="message flex flex-row">
       <img src="${user.avatar}" alt="${user.email}" class="avatar">
       <div class="message-wrapper">
         <p class="message-header">
@@ -119,15 +120,15 @@ const addMessage = message => {
         </p>
         <p class="message-content font-300">${text}</p>
       </div>
-    </div>`);
+    </div>`;
 
     chat.scrollTop = chat.scrollHeight - chat.clientHeight;
   }
 };
 
 // Show the login page
-const showLogin = (error = {}) => {
-  if(document.querySelectorAll('.login').length) {
+const showLogin = (error) => {
+  if(document.querySelectorAll('.login').length && error) {
     document.querySelector('.heading').insertAdjacentHTML('beforeend', `<p>There was an error: ${error.message}</p>`);
   } else {
     document.getElementById('app').innerHTML = loginHTML;
@@ -139,7 +140,6 @@ const showChat = async () => {
   document.getElementById('app').innerHTML = chatHTML;
 
   // Find the latest 25 messages. They will come with the newest first
-  // which is why we have to reverse before adding them
   const messages = await client.service('messages').find({
     query: {
       $sort: { createdAt: -1 },
@@ -153,6 +153,7 @@ const showChat = async () => {
   // Find all users
   const users = await client.service('users').find();
 
+  // Add each user to the list
   users.data.forEach(addUser);
 };
 
@@ -170,13 +171,14 @@ const getCredentials = () => {
 const login = async credentials => {
   try {
     if(!credentials) {
-      // Try to authenticate using the JWT from localStorage
+      // Try to authenticate using an existing token
       await client.reAuthenticate();
     } else {
-      // If we get login information, add the strategy we want to use for login
-      const payload = Object.assign({ strategy: 'local' }, credentials);
-
-      await client.authenticate(payload);
+      // Otherwise log in with the `local` strategy using the credentials we got
+      await client.authenticate({
+        strategy: 'local',
+        ...credentials
+      });
     }
 
     // If successful, show the chat page
@@ -187,7 +189,7 @@ const login = async credentials => {
   }
 };
 
-const addEventListener = (event, selector, handler) => {
+const addEventListener = (selector, event, handler) => {
   document.addEventListener(event, async ev => {
     if (ev.target.closest(selector)) {
       handler(ev);
@@ -195,7 +197,8 @@ const addEventListener = (event, selector, handler) => {
   });
 };
 
-addEventListener('click', '#signup', async () => {
+// "Signup and login" button click handler
+addEventListener('#signup', 'click', async () => {
   // For signup, create a new user and then log them in
   const credentials = getCredentials();
     
@@ -205,19 +208,22 @@ addEventListener('click', '#signup', async () => {
   await login(credentials);
 });
 
-addEventListener('click', '#login', async () => {
+// "Login" button click handler
+addEventListener('#login', 'click', async () => {
   const user = getCredentials();
 
   await login(user);
 });
 
-addEventListener('click', '#logout', async () => {
+// "Logout" button click handler
+addEventListener('#logout', 'click', async () => {
   await client.logout();
     
   document.getElementById('app').innerHTML = loginHTML;
 });
 
-addEventListener('submit', '#send-message', async ev => {
+// "Send" message form submission handler
+addEventListener('#send-message', 'submit', async ev => {
   // This is the message text input field
   const input = document.querySelector('[name="text"]');
 
@@ -237,4 +243,6 @@ client.service('messages').on('created', addMessage);
 // We will also see when new users get created in real-time
 client.service('users').on('created', addUser);
 
+// Call login right away so we can show the chat window
+// If the user can already be authenticated
 login();
