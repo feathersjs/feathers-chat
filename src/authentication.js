@@ -8,18 +8,23 @@ class GitHubStrategy extends OAuthStrategy {
 
     return {
       ...baseData,
+      // You can also set the display name to profile.name
+      name: profile.login,
+      // The GitHub profile image
+      avatar: profile.avatar_url,
+      // The user email address (if available)
       email: profile.email
     };
   }
 }
 
 module.exports = app => {
-  const authService = new AuthenticationService(app);
+  const authentication = new AuthenticationService(app);
 
-  authService.register('jwt', new JWTStrategy());
-  authService.register('local', new LocalStrategy());
-  authService.register('github', new GitHubStrategy());
+  authentication.register('jwt', new JWTStrategy());
+  authentication.register('local', new LocalStrategy());
+  authentication.register('github', new GitHubStrategy());
 
-  app.use('/authentication', authService);
+  app.use('/authentication', authentication);
   app.configure(expressOauth());
 };
