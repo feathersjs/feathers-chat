@@ -1,5 +1,5 @@
 const { Service } = require('feathers-sequelize');
 
-exports.Messages = class Messages extends Service {
+exports.Db = class Db extends Service {
   
 };

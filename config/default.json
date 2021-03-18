@@ -35,5 +35,5 @@
       "passwordField": "password"
     }
   },
-  "nedb": "../data"
+  "postgres": "postgres://user0:a@localhost:5432/feathers_chat"
 }

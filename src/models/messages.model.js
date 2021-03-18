@@ -1,12 +1,15 @@
-const NeDB = require('nedb');
+const sequelize = require('sequelize');
 const path = require('path');
 
 module.exports = function (app) {
-  const dbPath = app.get('nedb');
-  const Model = new NeDB({
-    filename: path.join(dbPath, 'messages.db'),
-    autoload: true
+  const message = app.get('sequelizeClient').define('messages', {
+    text: {
+      type: sequelize.STRING,
+      allowNull: false
+    }
   });
-
-  return Model;
+  message.associate = function (models) {
+    message.belongsTo(models.users);
+  };
+  return message;
 };

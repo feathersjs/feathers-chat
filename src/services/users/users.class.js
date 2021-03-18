@@ -1,5 +1,5 @@
 // This is the database adapter service class
-const { Service } = require('feathers-nedb');
+const { Service } = require('feathers-sequelize');
 // We need this to create the MD5 hash
 const crypto = require('crypto');
 
