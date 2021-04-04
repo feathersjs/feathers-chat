@@ -23,8 +23,8 @@
     "npm": ">= 6.0.0"
   },
   "scripts": {
-    "test": "npm run eslint && npm run coverage",
-    "coverage": "nyc npm run mocha",
+    "test": "npm run eslint && npm run coverage --",
+    "coverage": "nyc npm run mocha --",
     "eslint": "eslint src/. test/. --config .eslintrc.json",
     "dev": "nodemon src/",
     "start": "node src/",
