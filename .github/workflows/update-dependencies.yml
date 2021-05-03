@@ -1,0 +1,23 @@
+name: 'Update dependencies'
+
+name: Run tests
+
+on:  
+  schedule:
+    - cron: '0 0 1 * *' # At the beginning of every month
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js 15
+      uses: actions/setup-node@v1
+      with:
+        node-version: 15
+    - run: npm install
+    - run: git checkout -b update-dependencies
+    - run: npm run update-dependencies
+    - run: npm install
+    - run: 'git commit -am "chore(dependencies):: Update dependencies"'
+    - run: git push origin update-dependencies
+    - run: 'gh pr create --title "chore(dependencies):: Update dependencies"'
