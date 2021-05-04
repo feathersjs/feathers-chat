@@ -4,7 +4,7 @@ name: Run tests
 
 on:  
   schedule:
-    - cron: '0 0 1 * *' # At the beginning of every month
+    - cron: '0 0 5 * *' # On the 5th day of every month
 jobs:
   update:
     runs-on: ubuntu-latest
@@ -16,8 +16,8 @@ jobs:
         node-version: 15
     - run: npm install
     - run: git checkout -b update-dependencies
-    - run: npm run update-dependencies
+    - run: npm run update-dependencies-$GITHUB_RUN_ID
     - run: npm install
-    - run: 'git commit -am "chore(dependencies):: Update dependencies"'
-    - run: git push origin update-dependencies
-    - run: 'gh pr create --title "chore(dependencies):: Update dependencies"'
+    - run: 'git commit -am "chore(dependencies): Update dependencies"'
+    - run: git push origin update-dependencies-$GITHUB_RUN_ID
+    - run: 'gh pr create --title "chore(dependencies): Update dependencies"'
