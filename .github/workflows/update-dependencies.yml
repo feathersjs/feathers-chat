@@ -1,10 +1,8 @@
-name: 'Update dependencies'
-
-name: Run tests
+name: Update dependencies
 
 on:  
   schedule:
-    - cron: '0 0 5 * *' # On the 5th day of every month
+    - cron: '0 0 7 * *'
 jobs:
   update:
     runs-on: ubuntu-latest
