@@ -14,9 +14,15 @@ jobs:
       with:
         node-version: 15
     - run: npm install
-    - run: git checkout -b update-dependencies-$GITHUB_RUN_ID
-    - run: npm run update-dependencies
-    - run: npm install
-    - run: 'git commit -am "chore(dependencies): Update dependencies"'
-    - run: git push origin update-dependencies-$GITHUB_RUN_ID
-    - run: 'gh pr create --title "chore(dependencies): Update dependencies"'
+    - run: |
+        git config user.name "GitHub Actions Bot"
+        git config user.email "<>"
+        git checkout -b update-dependencies-$GITHUB_RUN_ID
+    - run: |
+        npm run update-dependencies
+        npm install
+    - run: |
+        git commit -am "chore(dependencies): Update dependencies"
+        git push origin update-dependencies-$GITHUB_RUN_ID
+    - run: |
+        gh pr create --title "chore(dependencies): Update dependencies"
