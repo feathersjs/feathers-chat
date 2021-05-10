@@ -26,3 +26,5 @@ jobs:
         git push origin update-dependencies-$GITHUB_RUN_ID
     - run: |
         gh pr create --title "chore(dependencies): Update dependencies"
+      env:
+        GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
