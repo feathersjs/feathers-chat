@@ -14,6 +14,7 @@ jobs:
       with:
         node-version: 15
     - run: npm install
+    - run: npm test
     - run: |
         git config user.name "GitHub Actions Bot"
         git config user.email "<>"
@@ -25,6 +26,6 @@ jobs:
         git commit -am "chore(dependencies): Update dependencies"
         git push origin update-dependencies-$GITHUB_RUN_ID
     - run: |
-        gh pr create --title "chore(dependencies): Update dependencies" --body "Update all dependencies ($GITHUB_RUN_ID)"
+        gh pr create --title "chore(dependencies): Update all dependencies" --body ""
       env:
         GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
