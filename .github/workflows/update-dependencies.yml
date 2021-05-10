@@ -25,6 +25,6 @@ jobs:
         git commit -am "chore(dependencies): Update dependencies"
         git push origin update-dependencies-$GITHUB_RUN_ID
     - run: |
-        gh pr create --title "chore(dependencies): Update dependencies"
+        gh pr create --title "chore(dependencies): Update dependencies" --body "Update all dependencies ($GITHUB_RUN_ID)"
       env:
         GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
