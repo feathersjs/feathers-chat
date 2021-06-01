@@ -51,10 +51,10 @@
   },
   "devDependencies": {
     "axios": "^0.21.1",
-    "eslint": "^7.26.0",
+    "eslint": "^7.27.0",
     "mocha": "^8.4.0",
     "nodemon": "^2.0.7",
-    "npm-check-updates": "^11.5.11",
+    "npm-check-updates": "^11.6.0",
     "nyc": "^15.1.0",
     "shx": "^0.3.3"
   }
