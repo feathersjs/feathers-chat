@@ -47,14 +47,14 @@
     "helmet": "^5.1.0",
     "nedb": "^1.8.0",
     "serve-favicon": "^2.5.0",
-    "winston": "^3.7.2"
+    "winston": "^3.8.1"
   },
   "devDependencies": {
     "axios": "^0.27.2",
-    "eslint": "^8.16.0",
+    "eslint": "^8.18.0",
     "mocha": "^10.0.0",
-    "nodemon": "^2.0.16",
-    "npm-check-updates": "^13.0.3",
+    "nodemon": "^2.0.18",
+    "npm-check-updates": "^15.0.1",
     "nyc": "^15.1.0",
     "shx": "^0.3.4"
   }
