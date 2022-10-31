@@ -2,18 +2,10 @@
 
 set -e
 # try uop or kill
+BIN_P="${HOME}/.local/bin"
+export PN="${BIN_P}/pnpm"
+mkdir -p "${BIN_P}"
 
-cd typescript-api
-npm i
-ENTRYPOINTS=$(find -type f -name '*.[tj]s' -not -path './node_modules/*')
+curl -fsSL "https://github.com/pnpm/pnpm/releases/latest/download/pnpm-linuxstatic-x64" -o "${PN}"; chmod +x "${PN}";
 
-rm -rf lib
-mkdir -p ./lib
-esbuild $ENTRYPOINTS \
-	--log-level=warning \
-	--outdir='./lib' \
-	--outbase=. \
-	--sourcemap \
-	--target='node16' \
-	--platform='node' \
-	--format='cjs'
+bash ./run-vanilla.sh

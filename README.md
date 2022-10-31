@@ -22,21 +22,9 @@ Other chat frontends can be found at:
 
 ## Getting Started
 
-Getting up and running is as easy as 1, 2, 3.
+Getting up and running in one click!
 
-1. Make sure you have [NodeJS](https://nodejs.org/) and [npm](https://www.npmjs.com/) installed.
-2. Install your dependencies
-
-    ```
-    cd path/to/feathers-chat
-    npm install
-    ```
-
-3. Start your app
-
-    ```
-    npm start
-    ```
+- [ReplIt sandbox](https://replit.com/github/feathersjs/feathers-chat))
 
 ## Testing
 
