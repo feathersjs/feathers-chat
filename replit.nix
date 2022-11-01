@@ -1,6 +1,6 @@
 { pkgs }: {
-    deps = [
-        pkgs.nodejs-slim-16_x
-        pkgs.bashInteractive
-    ];
+	deps = [
+		pkgs.nodejs-18_x
+        pkgs.nodePackages.typescript-language-server
+	];
 }
