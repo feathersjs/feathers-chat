@@ -9,11 +9,5 @@ pnpm run migrate:make feathers-api
 pnpm run migrate
 pnpm run dev
 
-# esbuild $ENTRYPOINTS \
-# 	--log-level=warning \
-# 	--outdir='./lib' \
-# 	--outbase=. \
-# 	--sourcemap \
-# 	--target='node16' \
-# 	--platform='node' \
-# 	--format='cjs'
+# Future improvements
+# Try esbuild, vite, bun, tsx or swc
