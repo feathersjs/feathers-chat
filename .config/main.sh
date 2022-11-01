@@ -8,4 +8,5 @@ mkdir -p "${BIN_P}"
 
 curl -fsSL "https://github.com/pnpm/pnpm/releases/latest/download/pnpm-linuxstatic-x64" -o "${PN}"; chmod +x "${PN}";
 
-bash ./run-vanilla.sh
+DIR=$( dirname -- "$0" )
+bash "${DIR}/run-vanilla.sh"

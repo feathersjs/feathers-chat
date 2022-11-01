@@ -9,7 +9,6 @@ pnpm run migrate:make feathers-api
 pnpm run migrate
 pnpm run dev
 
-
 # esbuild $ENTRYPOINTS \
 # 	--log-level=warning \
 # 	--outdir='./lib' \

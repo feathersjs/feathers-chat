@@ -1,3 +1,3 @@
-run = ["bash", "main.sh"]
+run = ["bash", "./.config/main.sh"]
 
-entrypoint = "main.sh"
+entrypoint = "README.md"

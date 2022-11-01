@@ -119,4 +119,5 @@ dist
 .sqlite
 
 lib/
-/typescript-api/migrations/*.ts
+migrations/
+*.sqlite
