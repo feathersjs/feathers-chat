@@ -106,6 +106,6 @@ dist
 
 ################ END STOCK GITHUB NODEJS GITIGNORE ################
 
-# ReplIt - Override `git config core.excludesfile` / `/etc/.gitignore`
+# ReplIt
 !.config/
-# .config/nodemon.json
+.config/nodemon.json
