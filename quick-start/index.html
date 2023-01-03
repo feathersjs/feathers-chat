@@ -8,19 +8,20 @@
       rel="stylesheet"
       type="text/css"
     />
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2/dist/tailwind.min.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="https://feathersjs.com/feathers-chat.css" />
   </head>
   <body data-theme="dracula">
-    <main id="main" class="container px-8 py-8">
+    <main id="main" class="p-8">
       <h1 class="font-medium leading-tight text-5xl mt-0 mb-2">Welcome to Feathers</h1>
-
-      <div class="form-control w-full py-2 px-3">
+      
+      <div class="form-control w-full py-2">
         <form class="input-group overflow-hidden" onsubmit="sendMessage(event)">
           <input name="message" id="message-text" type="text" class="input input-bordered w-full" />
           <button type="submit" class="btn">Send</button>
         </form>
       </div>
-      <h2>Here are the current messages:</h2>
+      <h2 class="pt-1 pb-2 text-lg">Here are the current messages:</h2>
     </main>
 
     <script src="//unpkg.com/@feathersjs/client@^5.0.0-pre.34/dist/feathers.js"></script>
