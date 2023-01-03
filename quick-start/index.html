@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Feathers Example</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@2.46.1/dist/full.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link rel="stylesheet" href="https://feathersjs.com/feathers-chat.css" />
+  </head>
+  <body data-theme="dracula">
+    <main id="main" class="container px-8 py-8">
+      <h1 class="font-medium leading-tight text-5xl mt-0 mb-2">Welcome to Feathers</h1>
+
+      <div class="form-control w-full py-2 px-3">
+        <form class="input-group overflow-hidden" onsubmit="sendMessage(event)">
+          <input name="message" id="message-text" type="text" class="input input-bordered w-full" />
+          <button type="submit" class="btn">Send</button>
+        </form>
+      </div>
+      <h2>Here are the current messages:</h2>
+    </main>
+
+    <script src="//unpkg.com/@feathersjs/client@^5.0.0-pre.34/dist/feathers.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript">
+      // Set up socket.io
+      const socket = io("http://localhost:3030")
+      // Initialize a Feathers app
+      const app = feathers()
+
+      // Register socket.io to talk to our server
+      app.configure(feathers.socketio(socket))
+
+      // Form submission handler that sends a new message
+      async function sendMessage(event) {
+        const messageInput = document.getElementById("message-text")
+
+        event.preventDefault();
+
+        // Create a new message with the input field value
+        await app.service("messages").create({
+          text: messageInput.value,
+        })
+
+        messageInput.value = ""
+      }
+
+      // Renders a single message on the page
+      function addMessage(message) {
+        document.getElementById("main").innerHTML += `<div class="chat chat-start">
+          <div class="chat-bubble">${message.text}</div>
+        </div>`
+      }
+
+      const main = async () => {
+        // Find all existing messages
+        const messages = await app.service("messages").find()
+
+        // Add existing messages to the list
+        messages.forEach(addMessage)
+
+        // Add any newly created message to the list in real-time
+        app.service("messages").on("created", addMessage)
+      }
+
+      main()
+    </script>
+  </body>
+</html>
