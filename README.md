@@ -6,20 +6,20 @@
 
 ## About
 
-This repository includes the TypeScript and JavaScript API server from the [official Feathers chat guide](https://dove.feathersjs.com/guides/basics/generator.html) as well as chat frontend examples for different frameworks.
+This repository includes the server application from the [official Feathers chat guide](https://dove.feathersjs.com/guides/basics/generator.html) as well as chat frontend examples for different frameworks.
 
 ## API server
 
 ### TypeScript
 
-The TypeScript version of the chat API server can be found in the [typescript folder](./typescript/). To start it install the dependencies like this:
+The TypeScript version of the chat API server can be found in the [feathers-chat-ts](./feathers-chat-ts/). To start it install the dependencies like this:
 
 ```
-cd typescript
+cd feathers-chat-ts
 npm install
 ```
 
-Then compile the source code and run the database migration which will initialize an SQLite datbase in the `feathers-chat.sqlite` file.
+Then compile the source code and run the database migration which will initialize an SQLite database in the `feathers-chat.sqlite` file.
 
 ```
 npm run compile
@@ -38,44 +38,17 @@ Or in development mode with
 npm run dev
 ```
 
-### JavaScript
-
-The JavaScript version of the chat API server can be found in the [javascript folder](./javascript/). To start it install the dependencies like this:
-
-```
-cd javascript
-npm install
-```
-
-Then run the database migration which will initialize an SQLite datbase in the `feathers-chat.sqlite` file.
-
-```
-npm run migrate
-```
-
-It can now be started with:
-
-```
-npm start
-```
-
-Or in development mode with
-
-```
-npm run dev
-```
+Now go to [http://localhost:30303](http://localhost:30303) to start chatting 🕊️
 
 ## Frontend
 
 ### Plain JavaScript
 
-A plain JavaScript frontend can be found in the [public](./public/) folder which is hosted statically by both, the TypeScript and JavaScript [api server](#api-server).
+A plain JavaScript frontend can be found in the [public](./public/) folder which is hosted statically by the [api server examples](#api-server).
 
 ### React
 
-The React chat frontend example in the [react](./react/) folder uses create-react-app, TypeScript and the typed client available in the [TypeScript API server](#typescript).
-
-The TypeScript API server needs to be compiled and then running in order for this example to work.
+TBD
 
 ### VueJS
 

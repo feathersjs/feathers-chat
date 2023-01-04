@@ -1,4 +1,4 @@
-/* global io, feathers */
+/* global io, feathers, moment */
 // Establish a Socket.io connection
 const socket = io()
 // Initialize our Feathers client application through Socket.io
@@ -18,10 +18,14 @@ const loginTemplate = (error) => `<div class="login flex min-h-screen bg-neutral
     </h1>
   </div>
   <form class="card-body pt-2">
-    ${error ? `<div class="alert alert-error justify-start">
+    ${
+      error
+        ? `<div class="alert alert-error justify-start">
       <i class="i-feather-alert-triangle"></i>
       <span class="flex-grow">${error.message}</span>
-    </div>` : ''}
+    </div>`
+        : ''
+    }
     <div class="form-control">
       <label for="email" class="label"><span class="label-text">Email</span></label>
       <input type="text" name="email" placeholder="enter email" class="input input-bordered">
@@ -37,7 +41,8 @@ const loginTemplate = (error) => `<div class="login flex min-h-screen bg-neutral
 </div>`
 
 // Main chat view
-const chatTemplate = () => `<div class="drawer drawer-mobile"><input id="drawer-left" type="checkbox" class="drawer-toggle">
+const chatTemplate =
+  () => `<div class="drawer drawer-mobile"><input id="drawer-left" type="checkbox" class="drawer-toggle">
   <div class="drawer-content flex flex-col">
     <div class="navbar w-full">
       <div class="navbar-start">
@@ -73,19 +78,19 @@ const chatTemplate = () => `<div class="drawer drawer-mobile"><input id="drawer-
 </div>`
 
 // Helper to safely escape HTML
-const escapeHTML = str => str.replace(/&/g, '&amp')
-    .replace(/</g, '&lt').replace(/>/g, '&gt')
+const escapeHTML = (str) => str.replace(/&/g, '&amp').replace(/</g, '&lt').replace(/>/g, '&gt')
 
-const formatDate = timestamp => new Intl.DateTimeFormat('en-US', {
-  timeStyle: 'short',
-  dateStyle: 'medium'
-}).format(new Date(timestamp))
+const formatDate = (timestamp) =>
+  new Intl.DateTimeFormat('en-US', {
+    timeStyle: 'short',
+    dateStyle: 'medium'
+  }).format(new Date(timestamp))
 
 // Add a new user to the list
-const addUser = user => {
+const addUser = (user) => {
   const userList = document.querySelector('.user-list')
 
-  if(userList) {
+  if (userList) {
     // Add the user to the list
     userList.innerHTML += `<li class="user">
       <a>
@@ -103,14 +108,14 @@ const addUser = user => {
 }
 
 // Renders a message to the page
-const addMessage = message => {
+const addMessage = (message) => {
   // The user that sent this message (added by the populate-user hook)
   const { user = {} } = message
   const chat = document.querySelector('.chat')
   // Escape HTML to prevent XSS attacks
   const text = escapeHTML(message.text)
 
-  if(chat) {
+  if (chat) {
     chat.innerHTML += `<div class="message flex flex-row pt-2 pb-3 relative transition-colors duration-300 hover:bg-base-200">
       <div class="avatar indicator">
         <div class="h-10 w-10 sm:w-12 sm:h-12 rounded"><img src="${user.avatar}"></div>
@@ -164,9 +169,9 @@ const getCredentials = () => {
 }
 
 // Log in either using the given email/password or the token from storage
-const login = async credentials => {
+const login = async (credentials) => {
   try {
-    if(!credentials) {
+    if (!credentials) {
       // Try to authenticate using an existing token
       await client.reAuthenticate()
     } else {
@@ -179,14 +184,14 @@ const login = async credentials => {
 
     // If successful, show the chat page
     showChat()
-  } catch(error) {
+  } catch (error) {
     // If we got an error, show the login page
     showLogin(error)
   }
 }
 
 const addEventListener = (selector, event, handler) => {
-  document.addEventListener(event, async ev => {
+  document.addEventListener(event, async (ev) => {
     if (ev.target.closest(selector)) {
       handler(ev)
     }
@@ -219,7 +224,7 @@ addEventListener('#logout', 'click', async () => {
 })
 
 // "Send" message form submission handler
-addEventListener('#send-message', 'submit', async ev => {
+addEventListener('#send-message', 'submit', async (ev) => {
   // This is the message text input field
   const input = document.querySelector('[name="text"]')
 
