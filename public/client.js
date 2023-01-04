@@ -215,7 +215,7 @@ addEventListener('#login', 'click', async () => {
 addEventListener('#logout', 'click', async () => {
   await client.logout()
 
-  document.getElementById('app').innerHTML = loginHTML
+  document.getElementById('app').innerHTML = loginTemplate()
 })
 
 // "Send" message form submission handler
