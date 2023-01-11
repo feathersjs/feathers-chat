@@ -59,7 +59,7 @@
     "@feathersjs/socketio": "^5.0.0-pre.34",
     "@feathersjs/transport-commons": "^5.0.0-pre.34",
     "@feathersjs/typebox": "^5.0.0-pre.34",
-    "knex": "^2.3.0",
+    "knex": "^2.4.0",
     "sqlite3": "^5.1.4",
     "winston": "^3.8.2"
   },
