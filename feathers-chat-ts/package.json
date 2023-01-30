@@ -41,7 +41,7 @@
     "prettier": "npx prettier \"**/*.ts\" --write",
     "mocha": "cross-env NODE_ENV=test mocha test/ --require ts-node/register --recursive --extension .ts --exit",
     "test": "cross-env NODE_ENV=test npm run migrate && npm run mocha",
-    "bundle:client": "npm run compile && npm pack --pack-destination ./public",
+    "bundle:client": "npm run compile && npm pack --pack-destination ../public",
     "migrate": "knex migrate:latest",
     "migrate:make": "knex migrate:make"
   },
