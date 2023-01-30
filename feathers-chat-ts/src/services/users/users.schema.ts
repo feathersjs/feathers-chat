@@ -1,7 +1,7 @@
 // For more information about this file see https://dove.feathersjs.com/guides/cli/service.schemas.html
 import crypto from 'crypto'
 import { resolve } from '@feathersjs/schema'
-import { Type, getDataValidator, getValidator, querySyntax } from '@feathersjs/typebox'
+import { Type, getValidator, querySyntax } from '@feathersjs/typebox'
 import type { Static } from '@feathersjs/typebox'
 import { passwordHash } from '@feathersjs/authentication-local'
 
@@ -20,6 +20,7 @@ export const userSchema = Type.Object(
   { $id: 'User', additionalProperties: false }
 )
 export type User = Static<typeof userSchema>
+export const userValidator = getValidator(userSchema, dataValidator)
 export const userResolver = resolve<User, HookContext>({})
 
 export const userExternalResolver = resolve<User, HookContext>({
@@ -33,7 +34,7 @@ export const userDataSchema = Type.Pick(userSchema, ['email', 'password', 'githu
   additionalProperties: false
 })
 export type UserData = Static<typeof userDataSchema>
-export const userDataValidator = getDataValidator(userDataSchema, dataValidator)
+export const userDataValidator = getValidator(userDataSchema, dataValidator)
 export const userDataResolver = resolve<User, HookContext>({
   password: passwordHash({ strategy: 'local' }),
   avatar: async (value, user) => {
@@ -54,7 +55,7 @@ export const userPatchSchema = Type.Partial(userSchema, {
   $id: 'UserPatch'
 })
 export type UserPatch = Static<typeof userPatchSchema>
-export const userPatchValidator = getDataValidator(userPatchSchema, dataValidator)
+export const userPatchValidator = getValidator(userPatchSchema, dataValidator)
 export const userPatchResolver = resolve<User, HookContext>({
   password: passwordHash({ strategy: 'local' })
 })

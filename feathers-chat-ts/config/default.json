@@ -11,13 +11,13 @@
   },
   "sqlite": {
     "client": "sqlite3",
-    "connection": "./feathers-chat.sqlite",
+    "connection": "feathers-chat.sqlite",
     "useNullAsDefault": true
   },
   "authentication": {
     "entity": "user",
     "service": "users",
-    "secret": "l5GBmnEYr9TsQbUXXtkyMJTwW6Yu2wJV",
+    "secret": "gQLBW0MvbM5rT/CPw8L2heJa8z8vGmme",
     "authStrategies": [
       "jwt",
       "local"
@@ -36,8 +36,8 @@
     },
     "oauth": {
       "github": {
-        "key": "<Client ID>",
-        "secret": "<Client secret>"
+        "key": "7507f1495d162e6d9f8b",
+        "secret": "22b491c057aa88a75bfa2f291f8b1f4c68fd413a"
       }
     }
   }

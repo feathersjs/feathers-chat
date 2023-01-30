@@ -1,26 +1,22 @@
 // For more information about this file see https://dove.feathersjs.com/guides/cli/client.html
 import { feathers } from '@feathersjs/feathers'
-import type { TransportConnection, Params } from '@feathersjs/feathers'
+import type { TransportConnection, Application } from '@feathersjs/feathers'
 import authenticationClient from '@feathersjs/authentication-client'
-import type { Message, MessageData, MessageQuery, MessageService } from './services/messages/messages'
-export type { Message, MessageData, MessageQuery }
-
-import type { User, UserData, UserQuery, UserService } from './services/users/users'
-export type { User, UserData, UserQuery }
-
 import type { AuthenticationClientOptions } from '@feathersjs/authentication-client'
 
-const userServiceMethods = ['find', 'get', 'create', 'update', 'patch', 'remove'] as const
-type UserClientService = Pick<UserService<Params<UserQuery>>, typeof userServiceMethods[number]>
+import { messageClient } from './services/messages/messages.shared'
+export type { Message, MessageData, MessageQuery, MessagePatch } from './services/messages/messages.shared'
 
-const messageServiceMethods = ['find', 'get', 'create', 'update', 'patch', 'remove'] as const
-type MessageClientService = Pick<MessageService<Params<MessageQuery>>, typeof messageServiceMethods[number]>
+import { userClient } from './services/users/users.shared'
+export type { User, UserData, UserQuery, UserPatch } from './services/users/users.shared'
 
-export interface ServiceTypes {
-  messages: MessageClientService
-  users: UserClientService
-  //
+export interface Configuration {
+  connection: TransportConnection<ServiceTypes>
 }
+
+export interface ServiceTypes {}
+
+export type ClientApplication = Application<ServiceTypes, Configuration>
 
 /**
  * Returns a typed client for the feathers-chat app.
@@ -34,16 +30,13 @@ export const createClient = <Configuration = any>(
   connection: TransportConnection<ServiceTypes>,
   authenticationOptions: Partial<AuthenticationClientOptions> = {}
 ) => {
-  const client = feathers<ServiceTypes, Configuration>()
+  const client: ClientApplication = feathers()
 
   client.configure(connection)
   client.configure(authenticationClient(authenticationOptions))
+  client.set('connection', connection)
 
-  client.use('users', connection.service('users'), {
-    methods: userServiceMethods
-  })
-  client.use('messages', connection.service('messages'), {
-    methods: messageServiceMethods
-  })
+  client.configure(userClient)
+  client.configure(messageClient)
   return client
 }

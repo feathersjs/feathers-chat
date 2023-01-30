@@ -6,6 +6,8 @@ import type { KnexAdapterParams, KnexAdapterOptions } from '@feathersjs/knex'
 import type { Application } from '../../declarations'
 import type { User, UserData, UserPatch, UserQuery } from './users.schema'
 
+export type { User, UserData, UserPatch, UserQuery }
+
 export interface UserParams extends KnexAdapterParams<UserQuery> {}
 
 // By default calls the standard Knex adapter service methods but can be customized with your own functionality.

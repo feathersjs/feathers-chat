@@ -1,4 +1,5 @@
 import type { HookContext, NextFunction } from '../declarations'
+import { logger } from '../logger'
 
 export const logRuntime = async (context: HookContext, next: NextFunction) => {
   const startTime = Date.now()
@@ -6,5 +7,5 @@ export const logRuntime = async (context: HookContext, next: NextFunction) => {
   await next()
 
   const duration = Date.now() - startTime
-  console.log(`Calling ${context.method} on ${context.path} took ${duration}ms`)
+  logger.info(`Calling ${context.method} on ${context.path} took ${duration}ms`)
 }
