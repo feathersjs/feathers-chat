@@ -6,11 +6,6 @@ import type { Application, HookContext } from './declarations'
 import { logger } from './logger'
 
 export const channels = (app: Application) => {
-  if (typeof app.channel !== 'function') {
-    // If no real-time functionality has been configured just return
-    return
-  }
-
   logger.warn(
     'Publishing all events to all authenticated users. See `channels.ts` and https://dove.feathersjs.com/api/channels.html for more information.'
   )

@@ -13,7 +13,7 @@ export const messageSchema = Type.Object(
     id: Type.Number(),
     text: Type.String(),
     createdAt: Type.Number(),
-    userId: Type.String(),
+    userId: Type.Number(),
     user: Type.Ref(userSchema)
   },
   { $id: 'Message', additionalProperties: false }

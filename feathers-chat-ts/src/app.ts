@@ -4,8 +4,8 @@ import configuration from '@feathersjs/configuration'
 import { koa, rest, bodyParser, errorHandler, parseAuthentication, cors, serveStatic } from '@feathersjs/koa'
 import socketio from '@feathersjs/socketio'
 
-import type { Application } from './declarations'
 import { configurationValidator } from './configuration'
+import type { Application } from './declarations'
 import { logError } from './hooks/log-error'
 import { sqlite } from './sqlite'
 import { authentication } from './authentication'
@@ -33,10 +33,10 @@ app.configure(
     }
   })
 )
+app.configure(channels)
 app.configure(sqlite)
 app.configure(authentication)
 app.configure(services)
-app.configure(channels)
 
 // Register hooks that run on all service methods
 app.hooks({

@@ -14,7 +14,7 @@ export interface MessageParams extends KnexAdapterParams<MessageQuery> {}
 export class MessageService<ServiceParams extends Params = MessageParams> extends KnexService<
   Message,
   MessageData,
-  ServiceParams,
+  MessageParams,
   MessagePatch
 > {}
 
