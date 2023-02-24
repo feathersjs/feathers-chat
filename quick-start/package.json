@@ -15,8 +15,8 @@
     "typescript": "^4.9.4"
   },
   "dependencies": {
-    "@feathersjs/feathers": "^5.0.0-pre.34",
-    "@feathersjs/koa": "^5.0.0-pre.34",
-    "@feathersjs/socketio": "^5.0.0-pre.34"
+    "@feathersjs/feathers": "^5.0.0",
+    "@feathersjs/koa": "^5.0.0",
+    "@feathersjs/socketio": "^5.0.0"
   }
 }
