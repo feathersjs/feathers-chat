@@ -5,7 +5,7 @@
 > A FeathersJS chat application
 
 <p align="center">
-  <a href="https://replit.com/new/github/FossPrime/feathers-chat"><img src="https://replit.com/badge/github/feathersjs/feathers-chat" alt="Run on Repl.it"></a> 
+  <a href="https://replit.com/new/github/feathersjs/feathers-chat"><img src="https://replit.com/badge/github/feathersjs/feathers-chat" alt="Run on Repl.it"></a> 
 </p>
 
 ## About

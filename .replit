@@ -1,9 +1,17 @@
-hidden=[".config"]
+hidden=[".config", ".github", ".gitignore", ".prettierrc"]
 
-onBoot=["sh", "-c", "cd feathers-chat-ts; npm run compile; npm run migrate"] # Danger, NixOS is weird... node is not in env
-run = ["sh", "-c", "cd feathers-chat-ts; npm run dev"]
+# onBoot=["/bin/sh", "-c", "cd feathers-chat-ts"] # Danger, NixOS is weird... node is not in env
+run = """
+  cd feathers-chat-ts
+  if [ ! -d "node_modules" ]; then
+    npm i
+    npm run compile
+    npm run migrate
+  fi
+  npm run dev
+"""
 
-entrypoint = ".replit"
+entrypoint = "README.md"
 
 # Multiple ports
 # https://docs.replit.com/programming-ide/configuring-repl#ports
@@ -25,6 +33,7 @@ NODE_NO_WARNINGS="1"
 PATH = "/home/runner/$REPL_SLUG/.config/npm/node_global/bin:/home/runner/$REPL_SLUG/node_modules/.bin"
 npm_config_yes="true"
 HOSTNAME="0.0.0.0"
+NODE_OPTIONS="--max_old_space_size=384"
 
 # Enables Secrets and Repl Auth, without the erratic Replit packagers
 [packager]
