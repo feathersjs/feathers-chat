@@ -4,6 +4,10 @@
 
 > A FeathersJS chat application
 
+<p align="center">
+  <a href="https://replit.com/new/github/FossPrime/feathers-chat"><img src="https://replit.com/badge/github/feathersjs/feathers-chat" alt="Run on Repl.it"></a> 
+</p>
+
 ## About
 
 This repository includes the server application from the [official Feathers chat guide](https://dove.feathersjs.com/guides/basics/generator.html) as well as chat frontend examples for different frameworks.

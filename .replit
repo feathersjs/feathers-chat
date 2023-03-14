@@ -1,0 +1,46 @@
+hidden=[".config"]
+
+onBoot=["sh", "-c", "cd feathers-chat-ts; npm run compile; npm run migrate"] # Danger, NixOS is weird... node is not in env
+run = ["sh", "-c", "cd feathers-chat-ts; npm run dev"]
+
+entrypoint = ".replit"
+
+# Multiple ports
+# https://docs.replit.com/programming-ide/configuring-repl#ports
+[[ports]]
+localPort = 3030
+externalPort = 80
+
+[[ports]]
+localPort = 9000
+externalPort = 9000
+
+
+[nix]
+channel = "stable-22_05"
+
+[env]
+EDITOR="vim"
+NODE_NO_WARNINGS="1"
+PATH = "/home/runner/$REPL_SLUG/.config/npm/node_global/bin:/home/runner/$REPL_SLUG/node_modules/.bin"
+npm_config_yes="true"
+HOSTNAME="0.0.0.0"
+
+# Enables Secrets and Repl Auth, without the erratic Replit packagers
+[packager]
+language = "bash"
+
+# Todo: Currently uses mocha by default, use npm run test instead or Test Runner
+# [unitTest]
+# language = "nodejs"
+
+[languages.typescript]
+pattern = "**/{*.ts,*.js,*.tsx,*.jsx}"
+syntax = "typescript"
+ 
+  [languages.typescript.languageServer]
+  start = [ "typescript-language-server", "--stdio" ]
+
+# Todo: Default is hard coded to use index.js, without support for TS
+[debugger]
+support = false
