@@ -1,12 +1,24 @@
-# feathers-chat
-
-[![CI](https://github.com/feathersjs/feathers-chat/workflows/CI/badge.svg)](https://github.com/feathersjs/feathers-chat/actions?query=workflow%3ACI)
-
-> A FeathersJS chat application
+# Feathers Chat
 
 <p align="center">
-  <a href="https://replit.com/new/github/feathersjs/feathers-chat"><img src="https://replit.com/badge/github/feathersjs/feathers-chat" alt="Run on Repl.it"></a> 
+  <a href="https://feathersjs.com" target="_blank" rel="noopener noreferrer">
+    <img width="180" src="https://raw.githubusercontent.com/feathersjs/feathers/2b89e0b7fceb42f92c9139f16f3291fa3ff560f1/docs/public/feathersjs.svg" alt="Feathers logo">
+  </a>
 </p>
+
+
+<p align="center">
+<b>A FeathersJS Chat Application</b>
+</p>
+
+<p align="center">
+<a href="https://github.com/feathersjs/feathers-chat/actions?query=workflow%3ACI" target="__blank"><img src="https://github.com/feathersjs/feathers-chat/workflows/CI/badge.svg" alt="NPM version"></a>
+</p>
+
+<p align="center">
+  <a href="https://replit.com/new/github/feathersjs/feathers-chat"><img src="https://replit.com/badge?caption=Try%20Feathers%20on%20Replit" alt="Replit"></a> 
+</p>
+
 
 ## About
 
