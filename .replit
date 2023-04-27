@@ -1,17 +1,41 @@
-hidden=[".config", ".github", ".gitignore", ".prettierrc"]
-
-# onBoot=["/bin/sh", "-c", "cd feathers-chat-ts"] # Danger, NixOS is weird... node is not in env
-run = """
-  cd feathers-chat-ts
-  if [ ! -d "node_modules" ]; then
-    npm i
-    npm run compile
-    npm run migrate
-  fi
-  npm run dev
-"""
+hidden=[".config", ".github", ".gitignore", ".prettierrc", "quick-start", "react-chat"]
 
 entrypoint = "README.md"
+
+run = """
+cd feathers-chat-ts
+npm run dev
+""" # """
+
+compile = """
+if [ ! -d "feathers-chat-ts/node_modules" ]; then
+  cd feathers-chat-ts
+  npm i
+  npm i -g @feathersjs/cli
+  npm run compile
+  npm run migrate
+  cd -
+fi
+
+# Helper script to deal with lack of CWD support in the Debugger
+mkdir -p .config
+if [ ! -f "node_modules" ]; then
+cat << EOF > ./.config/replit.mjs
+// Resolve FEATHERS_DIR path and cd to it
+console.log(process.env.NODE_PATH)
+if (process.env.FEATHERS_DIR) {
+  const p = process.env.FEATHERS_DIR
+  const f = new Function('return \\`' + p + '\\`;').call(process.env)
+  process.chdir(f)
+}
+EOF
+fi
+""" # """
+
+# Runs after `kill 1` or env changes
+onBoot = """
+rm tsconfig.json 2> /dev/null
+""" # """
 
 # Multiple ports
 # https://docs.replit.com/programming-ide/configuring-repl#ports
@@ -23,15 +47,14 @@ externalPort = 80
 localPort = 9000
 externalPort = 9000
 
-
 [nix]
-channel = "stable-22_05"
+channel = "stable-22_11"
 
 [env]
-EDITOR="vim"
-NODE_NO_WARNINGS="1"
 PATH = "/home/runner/$REPL_SLUG/.config/npm/node_global/bin:/home/runner/$REPL_SLUG/node_modules/.bin"
+EDITOR="replit-git-editor"
 npm_config_yes="true"
+npm_config_prefix = "/home/runner/$REPL_SLUG/.config/npm/node_global"
 HOSTNAME="0.0.0.0"
 NODE_OPTIONS="--max_old_space_size=384"
 
@@ -50,6 +73,50 @@ syntax = "typescript"
   [languages.typescript.languageServer]
   start = [ "typescript-language-server", "--stdio" ]
 
-# Todo: Default is hard coded to use index.js, without support for TS
 [debugger]
-support = false
+support = true
+
+  [debugger.interactive]
+  transport = "localhost:0"
+  startCommand = [ "dap-node" ]
+
+    [debugger.interactive.initializeMessage]
+    command = "initialize"
+    type = "request"
+
+      [debugger.interactive.initializeMessage.arguments]
+      clientID = "replit"
+      clientName = "replit.com"
+      columnsStartAt1 = true
+      linesStartAt1 = true
+      locale = "en-us"
+      pathFormat = "path"
+      supportsInvalidatedEvent = true
+      supportsProgressReporting = true
+      supportsRunInTerminalRequest = true
+      supportsVariablePaging = true
+      supportsVariableType = true
+
+    [debugger.interactive.launchMessage]
+    command = "launch"
+    type = "request"
+    
+      [debugger.interactive.launchMessage.arguments]
+      runtimeArgs = [
+        "--import", "./.config/replit.mjs",
+        "--loader", "./feathers-chat-ts/node_modules/ts-node/esm/transpile-only.mjs"
+      ]
+      args = []
+      console = "externalTerminal"
+      cwd = "."
+      environment = []
+      pauseForSourceMap = false
+      program = "feathers-chat-ts/src/index.ts"
+      request = "launch"
+      sourceMaps = true
+      stopOnEntry = false
+      type = "pwa-node"
+
+      [debugger.interactive.launchMessage.arguments.env]
+      FEATHERS_DIR = "${this.HOME}/${this.REPL_SLUG}/feathers-chat-ts"
+
