@@ -6,6 +6,7 @@ npm run dev
 """ # """
 
 compile = """
+clear
 echo 'NODE VERSION:' $(node --version)
 if ! [ -x "$(command -v feathers)" ]; then
   export npm_config_prefix="/home/runner/${REPL_SLUG}/npm/node_global"
@@ -34,12 +35,12 @@ EOF
 fi
 
 if [ ! -f "./.config/bashrc" ]; then
-cat << EOF > ./.config/replit.mjs
+cat << EOF > ./.config/bashrc
 #!/bin/bash
 node --version
 EOF
-
 fi
+
 rm tsconfig.json 2> /dev/null # Cleanup upstream debris
 """ # """
 
