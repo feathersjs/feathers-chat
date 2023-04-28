@@ -32,11 +32,7 @@ if (process.env.FEATHERS_DIR) {
 }
 EOF
 fi
-""" # """
-
-# Runs after `kill 1` or env changes
-onBoot = """
-rm tsconfig.json 2> /dev/null
+rm tsconfig.json 2> /dev/null # Cleanup upstream debris
 """ # """
 
 # Multiple ports
