@@ -10,7 +10,8 @@ npm run dev
 compile = """
 echo 'NODE VERSION:' $(node --version)
 if ! [ -x "$(command -v feathers)" ]; then
-  bash -lc "npm i -g @feathersjs/cli"
+  export npm_config_prefix=/home/runner/feathers-chat-21/.config/npm/node_global
+  npm i -g @feathersjs/cli
 fi
 if [ ! -d "feathers-chat-ts/node_modules" ]; then
   cd feathers-chat-ts
