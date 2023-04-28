@@ -1,6 +1,6 @@
 hidden=[".config", ".github", ".gitignore", ".prettierrc", "quick-start", "react-chat"]
 
-entrypoint = "README.md"
+entrypoint = "feathers-chat-ts/src/app.ts"
 
 run = """
 cd feathers-chat-ts
