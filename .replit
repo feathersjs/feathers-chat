@@ -9,10 +9,13 @@ npm run dev
 
 compile = """
 echo 'NODE VERSION:' $(node --version)
+npm i -g @feathersjs/cli
+if ! [ -x "$(command -v feathers)" ]; then
+  npm i -g @feathersjs/cli
+fi
 if [ ! -d "feathers-chat-ts/node_modules" ]; then
   cd feathers-chat-ts
   npm i
-  npm i -g @feathersjs/cli
   npm run compile
   npm run migrate
   cd -
