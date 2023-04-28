@@ -21,7 +21,7 @@ fi
 
 # Helper script to deal with lack of CWD support in the Debugger
 mkdir -p .config
-if [ ! -f "node_modules" ]; then
+if [ ! -f "./.config/replit.mjs" ]; then
 cat << EOF > ./.config/replit.mjs
 // Resolve FEATHERS_DIR path and cd to it
 console.log(process.env.NODE_PATH)
@@ -31,6 +31,14 @@ if (process.env.FEATHERS_DIR) {
   process.chdir(f)
 }
 EOF
+fi
+
+if [ ! -f "./.config/bashrc" ]; then
+cat << EOF > ./.config/replit.mjs
+#!/bin/bash
+node --version
+EOF
+
 fi
 rm tsconfig.json 2> /dev/null # Cleanup upstream debris
 """ # """
