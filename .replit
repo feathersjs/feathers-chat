@@ -8,6 +8,7 @@ npm run dev
 """ # """
 
 compile = """
+echo 'NODE VERSION:' $(node --version)
 if [ ! -d "feathers-chat-ts/node_modules" ]; then
   cd feathers-chat-ts
   npm i
