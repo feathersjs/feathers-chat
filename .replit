@@ -16,7 +16,7 @@ echo Running compile...
 if [ ! -d "feathers-chat-ts/node_modules" ]; then
   cd feathers-chat-ts
   npm i
-  npm run compile
+  # npm run compile # Drastically faster dev cold boot without
   npm run migrate
   cd -
 fi
