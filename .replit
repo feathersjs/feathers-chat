@@ -35,6 +35,12 @@ cat << EOF > ./.config/bashrc
 #!/bin/bash
 echo Node version: "$(node --version)"
 EOF
+fi
+
+INDEX_TS="$FEATHERS_DIR/src/index.ts"
+if ! grep -q "console.time" "$INDEX_TS"; then
+sed -i "1i console.time('App startup time')" "$INDEX_TS"
+sed -i "/Feathers app listening on /a console.timeEnd('App startup time')" "$INDEX_TS"
 duration=$SECONDS
 clear
 echo "[Compile] took $(($duration / 60))m$(($duration % 60))s"
