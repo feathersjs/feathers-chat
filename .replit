@@ -7,7 +7,7 @@ if [ ! -x "$(command -v feathers)" ]; then
   GB_DIR="$NG_DIR/bin"
   mkdir -p "$GB_DIR"
   mkdir -p "$GM_DIR"
-  cp -a "$FEATHERS_DIR/node_modules/@feathersjs/cli" "$GM_DIR"
+  cp -a "$FEATHERS_DIR/node_modules/@feathersjs/cli" "$GM_DIR/@feathersjs"
   cd "$GB_DIR"
   ln -s feathers ../lib/node_modules/@feathersjs/cli/bin/feathers
   cd -
