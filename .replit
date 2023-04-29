@@ -70,7 +70,7 @@ channel = "stable-22_11"
 
 [env]
 FEATHERS_DIR = "feathers-chat-ts"
-PATH = "/home/runner/$REPL_SLUG/.config/npm/node_global/bin:/home/runner/$REPL_SLUG/node_modules/.bin:/home/runner/feathers-chat-ts/$FEATHERS_DIR/node_modules/.bin"
+PATH = "/home/runner/$REPL_SLUG/.config/npm/node_global/bin:/home/runner/$REPL_SLUG/node_modules/.bin:/home/runner/$REPL_SLUG/$FEATHERS_DIR/node_modules/.bin"
 EDITOR="replit-git-editor"
 npm_config_yes="true"
 npm_config_prefix = "/home/runner/$REPL_SLUG/.config/npm/node_global"
