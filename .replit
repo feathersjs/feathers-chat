@@ -2,7 +2,7 @@ hidden=[".config", ".github", ".gitignore", ".prettierrc", "quick-start", "react
 
 run = """
 if [ ! -x "$(command -v feathers)" ]; then
-  npm i -g @feathersjs/cli
+  # npm i -g @feathersjs/cli
 fi
 
 cd feathers-chat-ts
