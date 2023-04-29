@@ -45,6 +45,12 @@ fi
 rm tsconfig.json 2> /dev/null || : # Cleanup upstream debris
 """ # """
 
+
+[[hints]]
+regex = "Error: listen EADDRINUSE: address already in use"
+message = "Try closing all web clients before running from the debugger or the shell."
+
+
 # Multiple ports
 # https://docs.replit.com/programming-ide/configuring-repl#ports
 [[ports]]
@@ -126,5 +132,6 @@ support = true
       type = "pwa-node"
 
       [debugger.interactive.launchMessage.arguments.env]
+      PORT = 9000
       FEATHERS_DIR = "${this.HOME}/${this.REPL_SLUG}/feathers-chat-ts"
 
