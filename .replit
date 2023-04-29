@@ -28,18 +28,19 @@ if (process.env.FEATHERS_DIR) {
 EOF
 fi
 
+rm tsconfig.json 2> /dev/null || : # Cleanup upstream debris
+
 if [ ! -f "./.config/bashrc" ]; then
 cat << EOF > ./.config/bashrc
 #!/bin/bash
 echo Node version: "$(node --version)"
 EOF
-fi
-
-rm tsconfig.json 2> /dev/null || : # Cleanup upstream debris
-
 duration=$SECONDS
 clear
 echo "[Compile] took $(($duration / 60))m$(($duration % 60))s"
+else
+clear
+fi
 """ # """
 
 
