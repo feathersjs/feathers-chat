@@ -11,10 +11,11 @@ npm run dev
 
 compile = """ # Runs before debug too. Lacks custom env vars.
 SECONDS=0
+FEATHERS_DIR="${HOME}/${REPL_SLUG}/feathers-chat-ts"
 clear
 echo [Compile]
-if [ ! -d "feathers-chat-ts/node_modules" ]; then
-  cd feathers-chat-ts
+if [ ! -d "$FEATHERS_DIR/node_modules" ]; then
+  cd $FEATHERS_DIR
   npm i
   # npm run compile # Drastically faster dev cold boot without
   npm run migrate
