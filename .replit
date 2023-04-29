@@ -7,11 +7,11 @@ npm run dev
 
 compile = """ # Runs before debug too. Lacks custom env vars.
 SECONDS=0
-SERVER="feathers-chat-ts"
+FEATHERS_DIR="feathers-chat-ts"
 clear
 echo [Compile]
-if [ ! -d "$SERVER/node_modules" ]; then
-  cd $SERVER
+if [ ! -d "$FEATHERS_DIR/node_modules" ]; then
+  cd $FEATHERS_DIR
   npm i --quiet
   # npm run compile # Drastically faster dev cold boot without
   npm run migrate
@@ -22,12 +22,8 @@ fi
 mkdir -p .config
 if [ ! -f "./.config/replit.mjs" ]; then
 cat << EOF > ./.config/replit.mjs
-// Resolve FEATHERS_DIR path and cd to it
-console.log(process.env.NODE_PATH)
 if (process.env.FEATHERS_DIR) {
-  const p = process.env.FEATHERS_DIR
-  const f = new Function('return \\`' + p + '\\`;').call(process.env)
-  process.chdir(f)
+  process.chdir(process.env.FEATHERS_DIR)
 }
 EOF
 fi
@@ -135,5 +131,4 @@ support = true
 
       [debugger.interactive.launchMessage.arguments.env]
       PORT = 9000
-      FEATHERS_DIR = "${this.HOME}/${this.REPL_SLUG}/feathers-chat-ts"
 
