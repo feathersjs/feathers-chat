@@ -15,8 +15,8 @@ if [ ! -d "$FEATHERS_DIR/node_modules" ]; then
   npm i > /dev/null
   export PERF1=$SECONDS
   # npm run compile # Drastically faster dev cold boot without
-  npm run migrate
-  export PERF2=$(($SECONDS - $PERF2))
+  # npm run migrate # Most of the time, optional
+  export PERF2=$(($SECONDS - $PERF1))
   cd -
 fi
 
