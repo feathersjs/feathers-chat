@@ -6,13 +6,13 @@ if [ ! -x "$(command -v feathers)" ]; then
 fi
 
 cd feathers-chat-ts
+clear
 npm run dev
 """ # """
 
-compile = """
+compile = """ # Runs before debug too. Lacks custom env vars.
 clear
 echo Running compile...
-echo 'NODE VERSION:' $(node --version)
 if [ ! -d "feathers-chat-ts/node_modules" ]; then
   cd feathers-chat-ts
   npm i
