@@ -15,7 +15,7 @@ if [ ! -d "$FEATHERS_DIR/node_modules" ]; then
   cd $FEATHERS_DIR
   npm i &> /dev/null
   export PERF1=$SECONDS
-  # npm run migrate # Most of the time, optional
+  npm run migrate # Sets up the tables, login will not work without this!l
   
   # For TS clients
   # npm run compile # Drastically faster dev cold boot without
