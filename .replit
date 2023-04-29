@@ -9,13 +9,18 @@ compile = """ # Runs before debug too. Lacks custom env vars.
 SECONDS=0
 FEATHERS_DIR="feathers-chat-ts"
 clear
-echo [Compile]
+echo [compile]
+
 if [ ! -d "$FEATHERS_DIR/node_modules" ]; then
   cd $FEATHERS_DIR
-  npm i > /dev/null
+  npm i &> /dev/null
   export PERF1=$SECONDS
-  # npm run compile # Drastically faster dev cold boot without
   # npm run migrate # Most of the time, optional
+  
+  # For TS clients
+  # npm run compile # Drastically faster dev cold boot without
+  # npm run bundle:client # Generates .tgz types for loading into TS clients
+  
   export PERF2=$(($SECONDS - $PERF1))
   cd -
 fi
@@ -44,7 +49,7 @@ if ! grep -q "console.time" "$INDEX_TS"; then
 sed -i "1i console.time('App startup time')" "$INDEX_TS"
 sed -i "/Feathers app listening on /a console.timeEnd('App startup time')" "$INDEX_TS"
 clear
-echo "[Compile] took ${SECONDS}s. ($PERF1 + $PERF2)"
+echo "[compile] took ${SECONDS}s. ($PERF1 + $PERF2)"
 else
 clear
 fi
@@ -73,18 +78,13 @@ channel = "stable-22_11"
 FEATHERS_DIR = "feathers-chat-ts"
 PATH = "/home/runner/$REPL_SLUG/.config/npm/node_global/bin:/home/runner/$REPL_SLUG/node_modules/.bin:/home/runner/$REPL_SLUG/$FEATHERS_DIR/node_modules/.bin"
 EDITOR="replit-git-editor"
-npm_config_yes="true"
 npm_config_prefix = "/home/runner/$REPL_SLUG/.config/npm/node_global"
 HOSTNAME="0.0.0.0"
 NODE_OPTIONS="--max_old_space_size=384"
 
-# Enables Secrets and Repl Auth, without the erratic Replit packagers
+# Enables Secrets and Auth, without the Replit packager
 [packager]
 language = "bash"
-
-# Todo: Currently uses mocha by default, use npm run test instead or Test Runner
-# [unitTest]
-# language = "nodejs"
 
 [languages.typescript]
 pattern = "**/{*.ts,*.js,*.tsx,*.jsx}"
