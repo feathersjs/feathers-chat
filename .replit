@@ -13,8 +13,10 @@ echo [Compile]
 if [ ! -d "$FEATHERS_DIR/node_modules" ]; then
   cd $FEATHERS_DIR
   npm i > /dev/null
+  export PERF1=$SECONDS
   # npm run compile # Drastically faster dev cold boot without
   npm run migrate
+  export PERF2=$(($SECONDS - $PERF2))
   cd -
 fi
 
@@ -41,9 +43,8 @@ INDEX_TS="$FEATHERS_DIR/src/index.ts"
 if ! grep -q "console.time" "$INDEX_TS"; then
 sed -i "1i console.time('App startup time')" "$INDEX_TS"
 sed -i "/Feathers app listening on /a console.timeEnd('App startup time')" "$INDEX_TS"
-duration=$SECONDS
 clear
-echo "[Compile] took $(($duration / 60))m$(($duration % 60))s"
+echo "[Compile] took ${SECONDS}s. ($PERF1 + $PERF2)"
 else
 clear
 fi
