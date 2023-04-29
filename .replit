@@ -1,18 +1,18 @@
 hidden=[".config", ".github", ".gitignore", ".prettierrc", "quick-start", "react-chat"]
 
 run = """
+if [ ! -x "$(command -v feathers)" ]; then
+  npm i -g @feathersjs/cli
+fi
+
 cd feathers-chat-ts
 npm run dev
 """ # """
 
 compile = """
 clear
+echo Running compile...
 echo 'NODE VERSION:' $(node --version)
-if [ ! -x "$(command -v feathers)" ]; then
-  export npm_config_yes=true
-  export npm_config_prefix="/home/runner/${REPL_SLUG}/npm/node_global"
-  npm i -g @feathersjs/cli
-fi
 if [ ! -d "feathers-chat-ts/node_modules" ]; then
   cd feathers-chat-ts
   npm i
