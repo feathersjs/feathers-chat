@@ -39,7 +39,7 @@ fi
 if [ ! -f "./.config/bashrc" ]; then
 cat << EOF > ./.config/bashrc
 #!/bin/bash
-echo Node version: node --version
+echo Node version: "$(node --version)"
 EOF
 fi
 
@@ -52,7 +52,7 @@ if [ ! -x "$(command -v feathers)" ]; then
   mkdir -p "$GB_DIR"
   mkdir -p "$GM_DIR/@feathersjs"
   cp -a "$FEATHERS_DIR/node_modules/@feathersjs/cli" "$GM_DIR/@feathersjs"
-  ln -s "${HOME}/${REPL_SLUG}/@feathersjs/cli/bin/feathers" "$GB_DIR"
+  ln -s "$HOME/$REPL_SLUG/$GM_DIR/@feathersjs/cli/bin/feathers" "$GB_DIR"
 fi
 
 duration=$SECONDS
