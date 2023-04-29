@@ -2,7 +2,15 @@ hidden=[".config", ".github", ".gitignore", ".prettierrc", "quick-start", "react
 
 run = """
 if [ ! -x "$(command -v feathers)" ]; then
-  npm i -g @feathersjs/cli
+  NG_DIR=".config/npm/node_global"
+  GM_DIR="$NG_DIR/lib/node_modules"
+  GB_DIR="$NG_DIR/bin"
+  mkdir -p "$GB_DIR"
+  mkdir -p "$GM_DIR"
+  cp -a "$FEATHERS_DIR/node_modules/@feathersjs/cli" "$GM_DIR"
+  cd "$GB_DIR"
+  ln -s feathers ../lib/node_modules/@feathersjs/cli/bin/feathers
+  cd -
 fi
 
 cd feathers-chat-ts
@@ -11,8 +19,9 @@ npm run dev
 """ # """
 
 compile = """ # Runs before debug too. Lacks custom env vars.
+SECONDS=0
 clear
-echo Running compile...
+echo [Compile]
 if [ ! -d "feathers-chat-ts/node_modules" ]; then
   cd feathers-chat-ts
   npm i
@@ -43,6 +52,13 @@ EOF
 fi
 
 rm tsconfig.json 2> /dev/null || : # Cleanup upstream debris
+
+if [ ! -x "$(command -v feathers)" ]; then
+  echo "@FEATHERSJS/CLI GLOBAL DOES NOT YET EXIST"
+fi
+
+duration=$SECONDS
+echo "[Compile] took $(($duration / 60))m$(($duration % 60))s"
 """ # """
 
 
@@ -71,6 +87,7 @@ npm_config_yes="true"
 npm_config_prefix = "/home/runner/$REPL_SLUG/.config/npm/node_global"
 HOSTNAME="0.0.0.0"
 NODE_OPTIONS="--max_old_space_size=384"
+FEATHERS_DIR = "${HOME}/${REPL_SLUG}/feathers-chat-ts"
 
 # Enables Secrets and Repl Auth, without the erratic Replit packagers
 [packager]
