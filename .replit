@@ -2,17 +2,10 @@ hidden=[".config", ".github", ".gitignore", ".prettierrc", "quick-start", "react
 
 run = """
 if [ ! -x "$(command -v feathers)" ]; then
-  NG_DIR=".config/npm/node_global"
-  GM_DIR="$NG_DIR/lib/node_modules"
-  GB_DIR="$NG_DIR/bin"
-  mkdir -p "$GB_DIR"
-  mkdir -p "$GM_DIR/@feathersjs"
-  cp -a "$FEATHERS_DIR/node_modules/@feathersjs/cli" "$GM_DIR/@feathersjs"
-  ln -s "${HOME}/${REPL_SLUG}/@feathersjs/cli/bin/feathers" "$GB_DIR"
+  echo "@FEATHERSJS/CLI GLOBAL DOES NOT EXIST"
 fi
 
 cd feathers-chat-ts
-clear
 npm run dev
 """ # """
 
@@ -45,14 +38,20 @@ fi
 if [ ! -f "./.config/bashrc" ]; then
 cat << EOF > ./.config/bashrc
 #!/bin/bash
-node --version
+echo Node version: node --version
 EOF
 fi
 
 rm tsconfig.json 2> /dev/null || : # Cleanup upstream debris
 
 if [ ! -x "$(command -v feathers)" ]; then
-  echo "@FEATHERSJS/CLI GLOBAL DOES NOT YET EXIST"
+  NG_DIR=".config/npm/node_global"
+  GM_DIR="$NG_DIR/lib/node_modules"
+  GB_DIR="$NG_DIR/bin"
+  mkdir -p "$GB_DIR"
+  mkdir -p "$GM_DIR/@feathersjs"
+  cp -a "$FEATHERS_DIR/node_modules/@feathersjs/cli" "$GM_DIR/@feathersjs"
+  ln -s "${HOME}/${REPL_SLUG}/@feathersjs/cli/bin/feathers" "$GB_DIR"
 fi
 
 duration=$SECONDS
