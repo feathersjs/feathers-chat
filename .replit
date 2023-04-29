@@ -8,7 +8,8 @@ npm run dev
 compile = """
 clear
 echo 'NODE VERSION:' $(node --version)
-if ! [ -x "$(command -v feathers)" ]; then
+if [ ! -x "$(command -v feathers)" ]; then
+  export npm_config_yes=true
   export npm_config_prefix="/home/runner/${REPL_SLUG}/npm/node_global"
   npm i -g @feathersjs/cli
 fi
@@ -41,7 +42,7 @@ node --version
 EOF
 fi
 
-rm tsconfig.json 2> /dev/null # Cleanup upstream debris
+rm tsconfig.json 2> /dev/null || : # Cleanup upstream debris
 """ # """
 
 # Multiple ports
