@@ -44,7 +44,7 @@ rm tsconfig.json 2> /dev/null || : # Cleanup upstream debris
 if [ ! -f "./.config/bashrc" ]; then
 cat << EOF > ./.config/bashrc
 #!/bin/bash
-echo Node version: "$(node --version)"
+echo Node version: "\\$(node --version)"
 EOF
 fi
 
