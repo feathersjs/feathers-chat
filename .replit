@@ -23,8 +23,9 @@ if [ ! -d "$FEATHERS_DIR/node_modules" ]; then
 fi
 PERF1=$SECONDS
 
+# Sets up the tables, login will not work without this!
 if [ ! -f "$FEATHERS_DIR/feathers-chat.sqlite" ]; then
-  npm run migrate # Sets up the tables, login will not work without this!
+  sh -c "cd '$FEATHERS_DIR'; npm run migrate"
 fi
 PERF2=$(($SECONDS - $PERF1))
 
