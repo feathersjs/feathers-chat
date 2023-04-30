@@ -15,16 +15,18 @@ echo [compile]
 if [ ! -d "$FEATHERS_DIR/node_modules" ]; then
   cd $FEATHERS_DIR
   npm i &> /dev/null
-  export PERF1=$SECONDS
-  npm run migrate # Sets up the tables, login will not work without this!l
   
   # For TS clients
   # npm run compile # Drastically faster dev cold boot without
   # npm run bundle:client # Generates .tgz types for loading into TS clients
-  
-  export PERF2=$(($SECONDS - $PERF1))
   cd -
 fi
+PERF1=$SECONDS
+
+if [ ! -f "$FEATHERS_DIR/feathers-chat.sqlite" ]; then
+  npm run migrate # Sets up the tables, login will not work without this!
+fi
+PERF2=$(($SECONDS - $PERF1))
 
 # Helper script to deal with lack of CWD support in the Debugger
 mkdir -p .config
