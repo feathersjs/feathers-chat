@@ -47,6 +47,12 @@ echo Node version: "$(node --version)"
 EOF
 fi
 
+# Append origin for OAuth. Alternatively, set it as an env var
+CONFIG_FILE="$FEATHERS_DIR/config/default.json"
+if ! grep -q "$FEATHERS_ORIGIN" "$CONFIG_FILE"; then
+  sed -i "/\\"origins\\"/a \    \\"$FEATHERS_DIR\\","
+fi
+
 INDEX_TS="$FEATHERS_DIR/src/index.ts"
 if ! grep -q "console.time" "$INDEX_TS"; then
   sed -i "/Feathers app listening on /a \\
