@@ -8,7 +8,7 @@ npm run dev
 compile = """ # Runs before debug too. Lacks custom env vars.
 SECONDS=0
 FEATHERS_DIR="feathers-chat-ts"
-FEATHERS_ORIGIN="https://$REPL_SLUG.$REPL_OWNER.repl.co"
+FEATHERS_ORIGIN="https://${REPL_SLUG,,}.${REPL_OWNER,,}.repl.co"
 clear
 echo [compile]
 
@@ -57,7 +57,7 @@ fi
 INDEX_TS="$FEATHERS_DIR/src/index.ts"
 if ! grep -q "console.time" "$INDEX_TS"; then
   sed -i "/Feathers app listening on /a \\
-    \\  logger.info(\\`Remote: \\${process.env.FEATHERS_ORIGIN}\\`)\\n\\
+    \\  logger.info(\\`Remote: \\${process.env.FEATHERS_ORIGIN?.toLowerCase()}\\`)\\n\\
   console.timeEnd('App startup time')" "$INDEX_TS"
   
   sed -i "1i console.time('App startup time')" "$INDEX_TS"
@@ -93,7 +93,7 @@ PATH = "/home/runner/$REPL_SLUG/.config/npm/node_global/bin:/home/runner/$REPL_S
 EDITOR = "replit-git-editor"
 npm_config_prefix = "/home/runner/$REPL_SLUG/.config/npm/node_global"
 HOSTNAME = "0.0.0.0"
-FEATHERS_ORIGIN = "https://$REPL_SLUG.$REPL_OWNER.repl.co"
+FEATHERS_ORIGIN = "https://${REPL_SLUG}.${REPL_OWNER}.repl.co"
 NODE_OPTIONS = "--max_old_space_size=384"
 
 # Enables Secrets and Auth, without the Replit packager
@@ -153,5 +153,4 @@ support = true
 
       [debugger.interactive.launchMessage.arguments.env]
       PORT = 9000
-      FEATHERS_ORIGIN = "https://$REPL_SLUG.$REPL_OWNER.repl.co:9000"
 
