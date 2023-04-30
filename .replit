@@ -48,7 +48,7 @@ fi
 INDEX_TS="$FEATHERS_DIR/src/index.ts"
 if ! grep -q "console.time" "$INDEX_TS"; then
   sed -i "/Feathers app listening on /a \\
-    \  logger.info(\\`Or \\${process.env.FEATHERS_ORIGIN}\\`)\\n\\
+    \\  logger.info(\\`Or \\${process.env.FEATHERS_ORIGIN}\\`)\\n\\
     console.timeEnd('App startup time')" "$INDEX_TS"
   
   sed -i "1i console.time('App startup time')" "$INDEX_TS"
