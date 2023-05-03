@@ -19,6 +19,6 @@ If your changes involve documentation updates please mention that and link the a
 
 To run this pull request in a clean container visit:
 1. Visit https://replit.com/new/github/feathersjs/feathers-chat
-2. Run `git pull origin pull/{{id}}/head`
+2. Run git pull origin pull/{{id}}/head
 
 Thanks for contributing to Feathers! :heart:
