@@ -1,4 +1,7 @@
-hidden=[".config", ".github", ".gitignore", ".prettierrc", "quick-start", "react-chat"]
+hidden=[
+  ".config", ".github", ".gitignore", ".prettierrc", "quick-start", "react-chat", 
+  "feathers-chat-ts/node_modules", "react-chat/node_modules",  "quick-start/node_modules"
+]
 
 run = """
 cd feathers-chat-ts
