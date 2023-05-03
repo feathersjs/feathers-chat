@@ -77,15 +77,30 @@ regex = "Error: listen EADDRINUSE: address already in use"
 message = "Try closing all web clients before running from the debugger or the shell."
 
 
-# Multiple ports
+# Ports
+# ==============================
 # https://docs.replit.com/programming-ide/configuring-repl#ports
+# If you use an undefined port, your container may crash!
+
+# Server port
 [[ports]]
 localPort = 3030
 externalPort = 80
 
+# Server's test env port
+[[ports]]
+localPort = 8998
+externalPort = 8998
+
+# Server debugging port
 [[ports]]
 localPort = 9000
 externalPort = 9000
+
+# React client
+[[ports]]
+localPort = 3000
+externalPort = 3000
 
 [nix]
 channel = "stable-22_11"
