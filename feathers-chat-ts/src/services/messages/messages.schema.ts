@@ -14,10 +14,12 @@ export const messageSchema = Type.Object(
     text: Type.String(),
     createdAt: Type.Number(),
     userId: Type.Number(),
-    user: Type.Ref(userSchema)
+    user: Type.Ref(userSchema),
+    parentId: Type.Optional(Type.Number()) // New property for storing parent ID
   },
   { $id: 'Message', additionalProperties: false }
-)
+);
+
 export type Message = Static<typeof messageSchema>
 export const messageValidator = getValidator(messageSchema, dataValidator)
 export const messageResolver = resolve<Message, HookContext>({
