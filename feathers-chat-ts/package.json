@@ -58,7 +58,7 @@
     "@feathersjs/koa": "^5.0.0",
     "@feathersjs/schema": "^5.0.0",
     "@feathersjs/socketio": "^5.0.0",
-    "@feathersjs/transport-commons": "^5.0.0",
+    "@feathersjs/transport-commons": "^5.0.8",
     "@feathersjs/typebox": "^5.0.0",
     "knex": "^2.4.2",
     "sqlite3": "^5.1.4",
