@@ -57,7 +57,7 @@
     "@feathersjs/knex": "^5.0.0",
     "@feathersjs/koa": "^5.0.0",
     "@feathersjs/schema": "^5.0.0",
-    "@feathersjs/socketio": "^5.0.0",
+    "@feathersjs/socketio": "^5.0.8",
     "@feathersjs/transport-commons": "^5.0.0",
     "@feathersjs/typebox": "^5.0.0",
     "knex": "^2.4.2",
