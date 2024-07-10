@@ -36,12 +36,12 @@
     },
     "oauth": {
       "github": {
-        "key": "",
-        "secret": ""
+        "key": "Ov23linkY2RBILeY9p04",
+        "secret": "9aa9c791fcee7a6146213bf5fb1fc202c089c5b1"
       },
       "apple": {
         "key": "com.theinfinitereality.com",
-        "secret": "",
+        "secret": "eyJhbGciOiJFUzI1NiIsImtpZCI6IjJLNFc3RFlMUUwifQ.eyJpc3MiOiJVS1haTVoyM1A0IiwiYXVkIjoiaHR0cHM6Ly9hcHBsZWlkLmFwcGxlLmNvbSIsInN1YiI6ImNvbS50aGVpbmZpbml0ZXJlYWxpdHkuY29tIiwiaWF0IjoxNzE5MjA4NTU4LCJleHAiOjE3MTkyMjI5NTh9.-ZKgVBQjx4-1qqVhT_nRqona3mzQpBXkU7hUiQOoKbvS1XnFH8aF5Nig988oCk2gzrxwoOjSBZJF15ot6TqdDQ",
         "scope": [
           "openid",
           "email",
@@ -51,12 +51,10 @@
           "raw",
           "jwt"
         ],
-        "nonce": true,
         "custom_params": {
           "response_type": "code id_token",
           "response_mode": "form_post"
-        },
-        "redirect_uri": "https://tunnel.feathers.cloud/oauth/apple/callback"
+        }
       }
     }
   }

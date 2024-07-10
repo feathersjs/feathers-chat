@@ -37,6 +37,7 @@ const loginTemplate = (error) => `<div class="login flex min-h-screen bg-neutral
     <div class="form-control mt-6"><button id="login" type="button" class="btn">Login</button></div>
     <div class="form-control mt-6"><button id="signup" type="button" class="btn">Signup</button></div>
     <div class="form-control mt-6"><a href="/oauth/github" id="github" class="btn">Login with GitHub</a></div>
+    <div class="form-control mt-6"><a href="/oauth/apple" id="apple" class="btn">Login with Apple</a></div>
   </form>
 </div>
 </div>`
