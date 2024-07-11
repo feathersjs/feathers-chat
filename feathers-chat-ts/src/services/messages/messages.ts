@@ -42,7 +42,10 @@ export const message = (app: Application) => {
       ]
     },
     before: {
-      all: [schemaHooks.validateQuery(messageQueryValidator), schemaHooks.resolveQuery(messageQueryResolver)],
+      all: [
+        schemaHooks.validateQuery(messageQueryValidator),
+        schemaHooks.resolveQuery(messageQueryResolver)
+      ],
       find: [],
       get: [],
       create: [schemaHooks.validateData(messageDataValidator), schemaHooks.resolveData(messageDataResolver)],
