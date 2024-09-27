@@ -11,11 +11,7 @@ function App() {
     client.on('logout', () => setUser(null))
     
     const reAuthenticate = async () => {
-      try {
-        await client.reAuthenticate()
-      } catch (error) {
-        setUser(null)
-      }
+      await client.reAuthenticate()
     }
 
     reAuthenticate()

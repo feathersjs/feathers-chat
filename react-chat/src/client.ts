@@ -6,4 +6,4 @@ export * from 'feathers-chat'
 
 const connection = socketio(io('http://localhost:3030'))
 
-export const client = createClient(connection)
+export const client = createClient(connection as any)
