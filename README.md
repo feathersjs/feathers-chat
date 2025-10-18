@@ -64,7 +64,31 @@ A plain JavaScript frontend can be found in the [public](./public/) folder which
 
 ### React
 
-TBD
+The React example lives in the [react-chat](./react-chat/) folder. It depends on the [generated client package tarball](https://feathersjs.com/guides/cli/client) that is built from the API project and installed locally from the filesystem.
+
+Step 1 — Build and bundle the client from the API project:
+```shell
+cd feathers-chat-ts
+npm install
+npm run bundle:client
+```
+This creates `../public/feathers-chat-0.0.0.tgz` (relative to `feathers-chat-ts`).
+
+Step 2 — Install dependencies and run the React app:
+```shell
+cd ../react-chat
+npm install
+npm start
+```
+
+Open http://localhost:3000 in your browser. The React app connects to the API at http://localhost:3030 via WebSockets.
+
+Note:
+- You still need to have the API running in a separate terminal for the app to work (WebSockets and REST at http://localhost:3030):
+  ```shell
+  cd feathers-chat-ts
+  npm run dev    # or: npm start
+  ```
 
 ### VueJS
 
