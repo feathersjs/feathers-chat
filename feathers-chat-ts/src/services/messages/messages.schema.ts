@@ -5,7 +5,7 @@ import type { Static } from '@feathersjs/typebox'
 
 import type { HookContext } from '../../declarations'
 import { dataValidator, queryValidator } from '../../validators'
-import { userSchema } from '../users/users.schema'
+import '../users/users.schema'
 
 // Main data model schema
 export const messageSchema = Type.Object(
@@ -14,7 +14,7 @@ export const messageSchema = Type.Object(
     text: Type.String(),
     createdAt: Type.Number(),
     userId: Type.Number(),
-    user: Type.Ref(userSchema)
+    user: Type.Ref('User')
   },
   { $id: 'Message', additionalProperties: false }
 )
@@ -55,13 +55,15 @@ export const messagePatchResolver = resolve<Message, HookContext>({})
 
 // Schema for allowed query properties
 export const messageQueryProperties = Type.Pick(messageSchema, ['id', 'text', 'createdAt', 'userId'])
-export const messageQuerySchema = Type.Intersect(
-  [
-    querySyntax(messageQueryProperties),
-    // Add additional query properties here
-    Type.Object({}, { additionalProperties: false })
-  ],
-  { additionalProperties: false }
+export const messageQuerySchema = Type.Evaluate(
+  Type.Intersect(
+    [
+      querySyntax(messageQueryProperties, {}),
+      // Add additional query properties here
+      Type.Object({}, { additionalProperties: false })
+    ],
+    { additionalProperties: false }
+  )
 )
 export type MessageQuery = Static<typeof messageQuerySchema>
 export const messageQueryValidator = getValidator(messageQuerySchema, queryValidator)

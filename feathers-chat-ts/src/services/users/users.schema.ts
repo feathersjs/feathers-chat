@@ -62,13 +62,15 @@ export const userPatchResolver = resolve<User, HookContext>({
 
 // Schema for allowed query properties
 export const userQueryProperties = Type.Pick(userSchema, ['id', 'email', 'githubId'])
-export const userQuerySchema = Type.Intersect(
-  [
-    querySyntax(userQueryProperties),
-    // Add additional query properties here
-    Type.Object({}, { additionalProperties: false })
-  ],
-  { additionalProperties: false }
+export const userQuerySchema = Type.Evaluate(
+  Type.Intersect(
+    [
+      querySyntax(userQueryProperties, {}),
+      // Add additional query properties here
+      Type.Object({}, { additionalProperties: false })
+    ],
+    { additionalProperties: false }
+  )
 )
 export type UserQuery = Static<typeof userQuerySchema>
 export const userQueryValidator = getValidator(userQuerySchema, queryValidator)
