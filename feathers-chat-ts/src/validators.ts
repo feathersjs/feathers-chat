@@ -1,6 +1,11 @@
 // For more information about this file see https://dove.feathersjs.com/guides/cli/validators.html
-import { Ajv, addFormats } from '@feathersjs/schema'
-import type { FormatsPluginOptions } from '@feathersjs/schema'
+import AjvModule from 'ajv'
+import addFormatsModule from 'ajv-formats'
+import type { FormatsPluginOptions } from 'ajv-formats'
+
+// Handle ESM/CJS interop
+const Ajv = AjvModule.default || AjvModule
+const addFormats = addFormatsModule.default || addFormatsModule
 
 const formats: FormatsPluginOptions = [
   'date-time',
@@ -19,9 +24,9 @@ const formats: FormatsPluginOptions = [
   'regex'
 ]
 
-export const dataValidator: Ajv = addFormats(new Ajv({}), formats)
+export const dataValidator = addFormats(new Ajv({}), formats)
 
-export const queryValidator: Ajv = addFormats(
+export const queryValidator = addFormats(
   new Ajv({
     coerceTypes: true
   }),

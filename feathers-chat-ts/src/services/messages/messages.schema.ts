@@ -3,9 +3,10 @@ import { resolve, virtual } from '@feathersjs/schema'
 import { Type, getValidator, querySyntax } from '@feathersjs/typebox'
 import type { Static } from '@feathersjs/typebox'
 
-import type { HookContext } from '../../declarations'
-import { dataValidator, queryValidator } from '../../validators'
-import '../users/users.schema'
+import type { HookContext } from '../../declarations.js'
+import { dataValidator, queryValidator } from '../../validators.js'
+import '../users/users.schema.js'
+import type { User } from '../users/users.schema.js'
 
 // Main data model schema
 export const messageSchema = Type.Object(
@@ -14,7 +15,7 @@ export const messageSchema = Type.Object(
     text: Type.String(),
     createdAt: Type.Number(),
     userId: Type.Number(),
-    user: Type.Ref('User')
+    user: Type.Unsafe<User>(Type.Ref('User'))
   },
   { $id: 'Message', additionalProperties: false }
 )

@@ -3,9 +3,9 @@ import { AuthenticationService, JWTStrategy } from '@feathersjs/authentication'
 import { LocalStrategy } from '@feathersjs/authentication-local'
 import { oauth, OAuthStrategy } from '@feathersjs/authentication-oauth'
 import type { OAuthProfile } from '@feathersjs/authentication-oauth'
-import type { Application } from './declarations'
+import type { Application } from './declarations.js'
 
-declare module './declarations' {
+declare module './declarations.js' {
   interface ServiceTypes {
     authentication: AuthenticationService
   }

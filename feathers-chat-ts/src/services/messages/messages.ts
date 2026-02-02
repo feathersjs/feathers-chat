@@ -12,15 +12,15 @@ import {
   messageDataResolver,
   messagePatchResolver,
   messageQueryResolver
-} from './messages.schema'
+} from './messages.schema.js'
 
-import type { Application } from '../../declarations'
-import { MessageService, getOptions } from './messages.class'
-import { messagePath, messageMethods } from './messages.shared'
-import { logRuntime } from '../../hooks/log-runtime'
+import type { Application } from '../../declarations.js'
+import { MessageService, getOptions } from './messages.class.js'
+import { messagePath, messageMethods } from './messages.shared.js'
+import { logRuntime } from '../../hooks/log-runtime.js'
 
-export * from './messages.class'
-export * from './messages.schema'
+export * from './messages.class.js'
+export * from './messages.schema.js'
 
 // A configure function that registers the service and its hooks via `app.configure`
 export const message = (app: Application) => {
@@ -65,7 +65,7 @@ export const message = (app: Application) => {
 }
 
 // Add this service to the service type index
-declare module '../../declarations' {
+declare module '../../declarations.js' {
   interface ServiceTypes {
     [messagePath]: MessageService
   }

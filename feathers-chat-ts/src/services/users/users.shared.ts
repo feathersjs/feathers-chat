@@ -1,7 +1,7 @@
 // For more information about this file see https://dove.feathersjs.com/guides/cli/service.shared.html
 import type { Params } from '@feathersjs/feathers'
-import type { ClientApplication } from '../../client'
-import type { User, UserData, UserPatch, UserQuery, UserService } from './users.class'
+import type { ClientApplication } from '../../client.js'
+import type { User, UserData, UserPatch, UserQuery, UserService } from './users.class.js'
 
 export type { User, UserData, UserPatch, UserQuery }
 
@@ -20,7 +20,7 @@ export const userClient = (client: ClientApplication) => {
 }
 
 // Add this service to the client service type index
-declare module '../../client' {
+declare module '../../client.js' {
   interface ServiceTypes {
     [userPath]: UserClientService
   }

@@ -3,8 +3,8 @@ import type { Params } from '@feathersjs/feathers'
 import { KnexService } from '@feathersjs/knex'
 import type { KnexAdapterParams, KnexAdapterOptions } from '@feathersjs/knex'
 
-import type { Application } from '../../declarations'
-import type { User, UserData, UserPatch, UserQuery } from './users.schema'
+import type { Application } from '../../declarations.js'
+import type { User, UserData, UserPatch, UserQuery } from './users.schema.js'
 
 export type { User, UserData, UserPatch, UserQuery }
 

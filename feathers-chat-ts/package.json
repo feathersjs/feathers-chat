@@ -1,6 +1,6 @@
 {
   "name": "feathers-chat",
-  "description": "A Feathesr chat application",
+  "description": "A Feathers chat application",
   "version": "0.0.0",
   "homepage": "",
   "private": true,
@@ -8,7 +8,7 @@
   "keywords": [
     "feathers"
   ],
-  "author": {},
+  "author": "Feathers contributors <hello@feathersjs.com>",
   "contributors": [],
   "bugs": {},
   "engines": {

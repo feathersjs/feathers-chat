@@ -1,7 +1,7 @@
 // For more information about this file see https://dove.feathersjs.com/guides/cli/service.shared.html
 import type { Params } from '@feathersjs/feathers'
-import type { ClientApplication } from '../../client'
-import type { Message, MessageData, MessagePatch, MessageQuery, MessageService } from './messages.class'
+import type { ClientApplication } from '../../client.js'
+import type { Message, MessageData, MessagePatch, MessageQuery, MessageService } from './messages.class.js'
 
 export type { Message, MessageData, MessagePatch, MessageQuery }
 
@@ -20,7 +20,7 @@ export const messageClient = (client: ClientApplication) => {
 }
 
 // Add this service to the client service type index
-declare module '../../client' {
+declare module '../../client.js' {
   interface ServiceTypes {
     [messagePath]: MessageClientService
   }

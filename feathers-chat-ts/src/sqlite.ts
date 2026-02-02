@@ -1,9 +1,9 @@
 // For more information about this file see https://dove.feathersjs.com/guides/cli/databases.html
 import knex from 'knex'
 import type { Knex } from 'knex'
-import type { Application } from './declarations'
+import type { Application } from './declarations.js'
 
-declare module './declarations' {
+declare module './declarations.js' {
   interface Configuration {
     sqliteClient: Knex
   }

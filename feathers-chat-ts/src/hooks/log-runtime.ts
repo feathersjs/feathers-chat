@@ -1,5 +1,5 @@
-import type { HookContext, NextFunction } from '../declarations'
-import { logger } from '../logger'
+import type { HookContext, NextFunction } from '../declarations.js'
+import { logger } from '../logger.js'
 
 export const logRuntime = async (context: HookContext, next: NextFunction) => {
   const startTime = Date.now()

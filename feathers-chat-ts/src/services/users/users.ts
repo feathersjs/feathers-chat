@@ -12,14 +12,14 @@ import {
   userDataResolver,
   userPatchResolver,
   userQueryResolver
-} from './users.schema'
+} from './users.schema.js'
 
-import type { Application } from '../../declarations'
-import { UserService, getOptions } from './users.class'
-import { userPath, userMethods } from './users.shared'
+import type { Application } from '../../declarations.js'
+import { UserService, getOptions } from './users.class.js'
+import { userPath, userMethods } from './users.shared.js'
 
-export * from './users.class'
-export * from './users.schema'
+export * from './users.class.js'
+export * from './users.schema.js'
 
 // A configure function that registers the service and its hooks via `app.configure`
 export const user = (app: Application) => {
@@ -59,7 +59,7 @@ export const user = (app: Application) => {
 }
 
 // Add this service to the service type index
-declare module '../../declarations' {
+declare module '../../declarations.js' {
   interface ServiceTypes {
     [userPath]: UserService
   }

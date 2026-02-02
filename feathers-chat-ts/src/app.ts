@@ -4,13 +4,13 @@ import configuration from '@feathersjs/configuration'
 import { koa, rest, bodyParser, errorHandler, parseAuthentication, cors, serveStatic } from '@feathersjs/koa'
 import socketio from '@feathersjs/socketio'
 
-import { configurationValidator } from './configuration'
-import type { Application } from './declarations'
-import { logError } from './hooks/log-error'
-import { sqlite } from './sqlite'
-import { authentication } from './authentication'
-import { services } from './services/index'
-import { channels } from './channels'
+import { configurationValidator } from './configuration.js'
+import type { Application } from './declarations.js'
+import { logError } from './hooks/log-error.js'
+import { sqlite } from './sqlite.js'
+import { authentication } from './authentication.js'
+import { services } from './services/index.js'
+import { channels } from './channels.js'
 
 const app: Application = koa(feathers())
 
