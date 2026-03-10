@@ -1,4 +1,5 @@
-/* global io, feathers, moment */
+/* global io, feathers */
+
 // Establish a Socket.io connection
 const socket = io()
 // Initialize our Feathers client application through Socket.io
@@ -9,37 +10,8 @@ client.configure(feathers.socketio(socket))
 // Use localStorage to store our login token
 client.configure(feathers.authentication())
 
-// Login screen
-const loginTemplate = (error) => `<div class="login flex min-h-screen bg-neutral justify-center items-center">
-<div class="card w-full max-w-sm bg-base-100 px-4 py-8 shadow-xl">
-  <div class="px-4"><i alt="" class="h-32 w-32 block mx-auto i-logos-feathersjs invert"></i>
-    <h1 class="text-5xl font-bold text-center my-5 bg-clip-text bg-gradient-to-br">
-      Feathers Chat
-    </h1>
-  </div>
-  <form class="card-body pt-2">
-    ${
-      error
-        ? `<div class="alert alert-error justify-start">
-      <i class="i-feather-alert-triangle"></i>
-      <span class="flex-grow">${error.message}</span>
-    </div>`
-        : ''
-    }
-    <div class="form-control">
-      <label for="email" class="label"><span class="label-text">Email</span></label>
-      <input type="text" name="email" placeholder="enter email" class="input input-bordered">
-    </div>
-    <div class="form-control mt-0">
-      <label for="password" class="label"><span class="label-text">Password</span></label>
-      <input type="password" name="password" placeholder="enter password" class="input input-bordered">
-    </div>
-    <div class="form-control mt-6"><button id="login" type="button" class="btn">Login</button></div>
-    <div class="form-control mt-6"><button id="signup" type="button" class="btn">Signup</button></div>
-    <div class="form-control mt-6"><a href="/oauth/github" id="github" class="btn">Login with GitHub</a></div>
-  </form>
-</div>
-</div>`
+// Reference the talon-login element from the DOM
+const talonLogin = document.getElementById('talon-login')
 
 // Main chat view
 const chatTemplate =
@@ -135,65 +107,6 @@ const addMessage = (message) => {
   }
 }
 
-// Show the login page
-const showLogin = () => {
-  document.getElementById('app').innerHTML = loginTemplate()
-}
-
-// Shows the chat page
-const showChat = async () => {
-  document.getElementById('app').innerHTML = chatTemplate()
-
-  // Find the latest 25 messages. They will come with the newest first
-  const messages = await client.service('messages').find({
-    query: {
-      $sort: { createdAt: -1 },
-      $limit: 25
-    }
-  })
-
-  // We want to show the newest message last
-  messages.data.reverse().forEach(addMessage)
-
-  // Find all users
-  const users = await client.service('users').find()
-
-  // Add each user to the list
-  users.data.forEach(addUser)
-}
-
-// Retrieve email/password object from the login/signup page
-const getCredentials = () => {
-  const user = {
-    email: document.querySelector('[name="email"]').value,
-    password: document.querySelector('[name="password"]').value
-  }
-
-  return user
-}
-
-// Log in either using the given email/password or the token from storage
-const login = async (credentials) => {
-  try {
-    if (!credentials) {
-      // Try to authenticate using an existing token
-      await client.reAuthenticate()
-    } else {
-      // Otherwise log in with the `local` strategy using the credentials we got
-      await client.authenticate({
-        strategy: 'local',
-        ...credentials
-      })
-    }
-
-    // If successful, show the chat page
-    showChat()
-  } catch (error) {
-    // If we got an error, show the login page
-    showLogin(error)
-  }
-}
-
 const addEventListener = (selector, event, handler) => {
   document.addEventListener(event, async (ev) => {
     if (ev.target.closest(selector)) {
@@ -202,29 +115,10 @@ const addEventListener = (selector, event, handler) => {
   })
 }
 
-// "Signup and login" button click handler
-addEventListener('#signup', 'click', async () => {
-  // For signup, create a new user and then log them in
-  const credentials = getCredentials()
-
-  // First create the user
-  await client.service('users').create(credentials)
-  // If successful log them in
-  await login(credentials)
-})
-
-// "Login" button click handler
-addEventListener('#login', 'click', async () => {
-  const user = getCredentials()
-
-  await login(user)
-})
-
 // "Logout" button click handler
 addEventListener('#logout', 'click', async () => {
   await client.logout()
-
-  document.getElementById('app').innerHTML = loginTemplate()
+  await talonLogin.logout()
 })
 
 // "Send" message form submission handler
@@ -248,6 +142,34 @@ client.service('messages').on('created', addMessage)
 // We will also see when new users get created in real-time
 client.service('users').on('created', addUser)
 
+const initialize = async () => {
+  const accessToken = await talonLogin.getAccessToken()
+
+  await client.authenticate({
+    strategy: 'talon',
+    accessToken
+  })
+
+  document.getElementById('app').innerHTML = chatTemplate()
+
+  // Find the latest 25 messages. They will come with the newest first
+  const messages = await client.service('messages').find({
+    query: {
+      $sort: { createdAt: -1 },
+      $limit: 25
+    }
+  })
+
+  // We want to show the newest message last
+  messages.data.reverse().forEach(addMessage)
+
+  // Find all users
+  const users = await client.service('users').find()
+
+  // Add each user to the list
+  users.data.forEach(addUser)
+}
+
 // Call login right away so we can show the chat window
 // If the user can already be authenticated
-login()
+initialize()

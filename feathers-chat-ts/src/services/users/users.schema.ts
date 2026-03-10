@@ -3,7 +3,6 @@ import crypto from 'crypto'
 import { resolve } from '@feathersjs/schema'
 import { Type, getValidator, querySyntax } from '@feathersjs/typebox'
 import type { Static } from '@feathersjs/typebox'
-import { passwordHash } from '@feathersjs/authentication-local'
 
 import type { HookContext } from '../../declarations'
 import { dataValidator, queryValidator } from '../../validators'
@@ -13,8 +12,6 @@ export const userSchema = Type.Object(
   {
     id: Type.Number(),
     email: Type.String(),
-    password: Type.Optional(Type.String()),
-    githubId: Type.Optional(Type.Number()),
     avatar: Type.Optional(Type.String())
   },
   { $id: 'User', additionalProperties: false }
@@ -23,20 +20,16 @@ export type User = Static<typeof userSchema>
 export const userValidator = getValidator(userSchema, dataValidator)
 export const userResolver = resolve<User, HookContext>({})
 
-export const userExternalResolver = resolve<User, HookContext>({
-  // The password should never be visible externally
-  password: async () => undefined
-})
+export const userExternalResolver = resolve<User, HookContext>({})
 
 // Schema for creating new users
-export const userDataSchema = Type.Pick(userSchema, ['email', 'password', 'githubId', 'avatar'], {
+export const userDataSchema = Type.Pick(userSchema, ['email', 'avatar'], {
   $id: 'UserData',
   additionalProperties: false
 })
 export type UserData = Static<typeof userDataSchema>
 export const userDataValidator = getValidator(userDataSchema, dataValidator)
 export const userDataResolver = resolve<User, HookContext>({
-  password: passwordHash({ strategy: 'local' }),
   avatar: async (value, user) => {
     // If the user passed an avatar image, use it
     if (value !== undefined) {
@@ -56,12 +49,10 @@ export const userPatchSchema = Type.Partial(userSchema, {
 })
 export type UserPatch = Static<typeof userPatchSchema>
 export const userPatchValidator = getValidator(userPatchSchema, dataValidator)
-export const userPatchResolver = resolve<User, HookContext>({
-  password: passwordHash({ strategy: 'local' })
-})
+export const userPatchResolver = resolve<User, HookContext>({})
 
 // Schema for allowed query properties
-export const userQueryProperties = Type.Pick(userSchema, ['id', 'email', 'githubId'])
+export const userQueryProperties = Type.Pick(userSchema, ['id', 'email'])
 export const userQuerySchema = Type.Intersect(
   [
     querySyntax(userQueryProperties),
