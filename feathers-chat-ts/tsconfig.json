@@ -9,12 +9,9 @@
     "rootDir": "./src",
     "declaration": true,
     "strict": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "skipLibCheck": true
   },
-  "include": [
-    "src"
-  ],
-  "exclude": [
-    "test"
-  ]
+  "include": ["src"],
+  "exclude": ["test"]
 }
