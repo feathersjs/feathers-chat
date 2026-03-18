@@ -8,7 +8,7 @@ declare module './declarations' {
   }
 }
 
-const appId = 'did:key:z6MknavTx2wpQQVh8ENZAnbCJ2SbTftJVjMHJ8CUDFStk7Lf'
+const appId = 'did:key:z6Mkqo9vCYS8n5hFYjPX4YvDTBstj4dw6VoQY1ggrDJhVmxc'
 
 class TalonStrategy extends AuthenticationBaseStrategy {
   verifier = createVerifier({ appId })
@@ -18,21 +18,17 @@ class TalonStrategy extends AuthenticationBaseStrategy {
     const { user: talonUser } = await this.verifier.verify(accessToken)
     const usersService = this.app!.service('users')
 
+    if (!talonUser) {
+      throw new Error('Talon user not found')
+    }
+
+    const { email } = talonUser
     // Find or create the user by email
     const users = await usersService.find({
-      query: { email: talonUser!.email },
+      query: { email },
       paginate: false
     })
-
-    let user
-    if ((users as any[]).length > 0) {
-      user = (users as any[])[0]
-    } else {
-      user = await usersService.create({
-        email: talonUser!.email,
-        avatar: `https://s.gravatar.com/avatar/${talonUser!.id}?s=60&d=mp`
-      })
-    }
+    const user = users?.length > 0 ? users[0] : await usersService.create({ email })
 
     return {
       authentication: { strategy: 'talon' },
