@@ -1,0 +1,28 @@
+{
+  "name": "api",
+  "description": "A Feathers chat API",
+  "version": "0.0.0",
+  "homepage": "",
+  "private": true,
+  "keywords": [
+    "feathers"
+  ],
+  "author": {},
+  "contributors": [],
+  "bugs": {},
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "start": "tsx src/index.ts"
+  },
+  "feathers": {
+    "packager": "npm",
+    "platform": "node"
+  },
+  "dependencies": {
+    "feathers": "^6.0.0-pre.11"
+  },
+  "devDependencies": {
+    "tsx": "^4.21.0"
+  }
+}

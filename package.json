@@ -5,5 +5,9 @@
   "description": "The Feathers chat application examples",
   "scripts": {
     "update-dependencies": "cd feathers-chat-ts && npx -y npm-check-updates -u && cd ../quick-start && npx npm-check-updates -u && cd ../react-chat && npx npm-check-updates -u"
-  }
+  },
+  "workspaces": [
+    "api",
+    "frontend"
+  ]
 }
