@@ -1,10 +1,9 @@
 import { feathers } from 'feathers'
 import { fetchClient } from 'feathers/client'
 import { getLoginElement } from 'talon-auth'
+import type { Client } from '../../api/src/app.js'
 
-// Initialize our Feathers client application through Socket.io
-// with hooks and authentication.
-const client = feathers()
+const client: Client = feathers()
 
 client.configure(fetchClient(window.fetch.bind(window), {
   baseUrl: 'http://localhost:3030',
@@ -14,10 +13,11 @@ client.configure(fetchClient(window.fetch.bind(window), {
 client.hooks([
   async (context, next) => {
     const login = await getLoginElement()
-    const header = await login?.getHeader()
+    const authorization = await login?.getHeader()
+
     context.params.headers = {
       ...context.params.headers,
-      authorization: header
+      authorization
     }
     return next()
   }
@@ -132,8 +132,6 @@ addEventListener('#send-message', 'submit', async (ev) => {
 client.service('messages').on('created', addMessage)
 
 const init = async () => {
-  document.getElementById('app').innerHTML = chatTemplate()
-
   await client.setup()
 
   // Find the latest 25 messages. They will come with the newest first
@@ -142,6 +140,8 @@ const init = async () => {
       $limit: 25
     }
   })
+
+  document.getElementById('app').innerHTML = chatTemplate()
 
   // We want to show the newest message last
   for (const message of messages.data.reverse()) {

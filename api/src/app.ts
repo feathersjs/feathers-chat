@@ -1,4 +1,5 @@
 import { feathers } from 'feathers'
+import type { ClientServices } from 'feathers/client'
 import type { HookContext as FeathersHookContext, Application as FeathersApplication } from 'feathers'
 import { MessageService } from './services/messages.js'
 import { SseService } from './services/sse.js'
@@ -15,6 +16,8 @@ export type Application = FeathersApplication<Services, Configuration>
 export type HookContext = FeathersHookContext<Application>
 
 const app: Application = feathers<Services, Configuration>()
+
+export type Client = FeathersApplication<ClientServices<Services, unknown>>
 
 app.use('sse', new SseService())
 app.use('messages', new MessageService())

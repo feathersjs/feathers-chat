@@ -13,6 +13,10 @@ export type Message = {
   user: string
 }
 
+export type MessageParams = Params & {
+  user: TalonAuthUser
+}
+
 const db = new DatabaseSync('chat.sqlite')
 
 db.exec(`
@@ -26,14 +30,14 @@ db.exec(`
 
 @hooks([authenticate])
 export class MessageService {
-  async find(params: Params) {
+  async find(params: MessageParams) {
     const limit = params.query?.$limit ?? 25
     const data = db.prepare('SELECT * FROM messages ORDER BY createdAt DESC LIMIT ?').all(limit) as Message[]
 
     return { limit, data }
   }
 
-  async get(id: string, _params: Params) {
+  async get(id: string, _params: MessageParams) {
     const message = db.prepare('SELECT * FROM messages WHERE id = ?').get(id) as Message | undefined
 
     if (!message) {
@@ -43,9 +47,7 @@ export class MessageService {
     return message
   }
 
-  async create(data: Pick<Message, 'text'>, params: Params & {
-    user: TalonAuthUser
-   }) {
+  async create(data: Pick<Message, 'text'>, params: MessageParams) {
     const createdAt = new Date().toISOString()
     const result = db.prepare('INSERT INTO messages (text, createdAt, user) VALUES (?, ?, ?)').run(
       data.text,
@@ -53,14 +55,6 @@ export class MessageService {
       params.user.email!
     )
 
-    return this.get(result.lastInsertRowid, params)
-  }
-
-  async remove(id: string, _params: Params) {
-    const message = await this.get(id, _params)
-
-    db.prepare('DELETE FROM messages WHERE id = ?').run(id)
-
-    return message
+    return this.get(`${result.lastInsertRowid}`, params)
   }
 }
