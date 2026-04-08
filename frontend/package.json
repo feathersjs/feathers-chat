@@ -13,6 +13,7 @@
     "vite": "^8.0.4"
   },
   "dependencies": {
-    "feathers": "^6.0.0-pre.11"
+    "feathers": "^6.0.0-pre.11",
+    "talon-auth": "^0.17.3"
   }
 }

@@ -4,6 +4,7 @@ import { hooks } from 'feathers/hooks'
 import { NotFound } from 'feathers/errors'
 
 import { authenticate } from '../hooks/authenticate.js'
+import { TalonAuthUser } from 'talon-auth'
 
 export type Message = {
   id?: number
@@ -42,16 +43,17 @@ export class MessageService {
     return message
   }
 
-  async create(data: Pick<Message, 'text'>, params: Params) {
+  async create(data: Pick<Message, 'text'>, params: Params & {
+    user: TalonAuthUser
+   }) {
     const createdAt = new Date().toISOString()
-    const user = JSON.stringify(params.user || {})
     const result = db.prepare('INSERT INTO messages (text, createdAt, user) VALUES (?, ?, ?)').run(
       data.text,
       createdAt,
-      user
+      params.user.email!
     )
 
-    return { id: Number(result.lastInsertRowid), text: data.text, createdAt, user }
+    return this.get(result.lastInsertRowid, params)
   }
 
   async remove(id: string, _params: Params) {

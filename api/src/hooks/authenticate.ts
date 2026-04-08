@@ -1,20 +1,21 @@
 import type { HookContext, NextFunction } from 'feathers'
 import { NotAuthenticated } from 'feathers/errors'
+import { createVerifier } from 'talon-auth'
 
-// A hook for simple API key authentication. Extend with the functionality needed for your application.
+const verifier = createVerifier({ appId: 'did:key:z6MknavTx2wpQQVh8ENZAnbCJ2SbTftJVjMHJ8CUDFStk7Lf' })
+
 export async function authenticate(context: HookContext, next: NextFunction) {
   if (context.params?.request) {
-    const apiKey = context.params?.request.headers.get('authorization')
+    const authorization = context.params?.request.headers.get('authorization')
 
-    if (apiKey !== 'supersecret') {
-      throw new NotAuthenticated('Invalid API key')
-    }
-
-    context.params = {
-      ...context.params,
-      user: {
-        apiKey: true
+    try {
+      const { user } = await verifier.verifyHeader(authorization!)
+      context.params = {
+        ...context.params,
+        user
       }
+    } catch {
+      throw new NotAuthenticated('Invalid or missing access token')
     }
   }
 
