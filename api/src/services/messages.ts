@@ -13,7 +13,7 @@ export type Message = {
   user: string
 }
 
-const db = new DatabaseSync(':memory:')
+const db = new DatabaseSync('chat.sqlite')
 
 db.exec(`
   CREATE TABLE IF NOT EXISTS messages (
